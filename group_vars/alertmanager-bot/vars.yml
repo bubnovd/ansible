@@ -1,0 +1,3 @@
+alertmanager_bot_telegram_token: "985717341:WGSGFadaeqcAa-IRtv-9i0NVTqyvVBG"
+alertmanager_bot_telegram_admins:
+  - 12345678

@@ -1,0 +1,21 @@
+[Unit]
+Description=Prometheus mikrotik Exporter
+After=network-online.target
+StartLimitInterval=0
+
+[Service]
+Type=simple
+User={{ mikrotik_exporter_user }}
+Group={{ mikrotik_exporter_group }}
+ExecReload=/bin/kill -HUP $MAINPID
+ExecStart=/usr/local/bin/mikrotik_exporter \
+  -config-file=/etc/mikrotik_exporter/mikrotik.yml -tls
+
+KillMode=process
+
+SyslogIdentifier=mikrotik_exporter
+Restart=always
+RestartSec=1
+
+[Install]
+WantedBy=multi-user.target

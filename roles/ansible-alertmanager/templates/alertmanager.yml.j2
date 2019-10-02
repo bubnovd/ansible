@@ -1,0 +1,56 @@
+{{ ansible_managed | comment }}
+
+global:
+  resolve_timeout: {{ alertmanager_resolve_timeout | quote}}
+{% for key, value in alertmanager_smtp.items() %}
+  smtp_{{ key }}: {{ value | quote }}
+{% endfor %}
+{% if alertmanager_slack_api_url | length %}
+  slack_api_url: {{ alertmanager_slack_api_url | quote }}
+{% endif %}
+{% if alertmanager_http_config | length %}
+  http_config:
+{% endif %}
+{% for key, value in alertmanager_http_config.items() %}
+    {{ key }}: {{ value | quote }}
+{% endfor %}
+{% if alertmanager_pagerduty_url | length %}
+  pagerduty_url: {{ alertmanager_pagerduty_url | quote }}
+{% endif %}
+{% if alertmanager_opsgenie_api_key | length %}
+  opsgenie_api_key: {{ alertmanager_opsgenie_api_key | quote }}
+{% endif %}
+{% if alertmanager_opsgenie_api_url | length %}
+  opsgenie_api_url: {{ alertmanager_opsgenie_api_url | quote }}
+{% endif %}
+{% if alertmanager_hipchat_api_url | length %}
+  hipchat_api_url: {{ alertmanager_hipchat_api_url | quote }}
+{% endif %}
+{% if alertmanager_hipchat_auth_token | length %}
+  hipchat_auth_token: {{ alertmanager_hipchat_auth_token | quote }}
+{% endif %}
+{% if alertmanager_wechat_url | length %}
+  wechat_api_url: {{ alertmanager_wechat_url | quote }}
+{% endif %}
+{% if alertmanager_wechat_secret | length %}
+  wechat_api_secret: {{ alertmanager_wechat_secret | quote }}
+{% endif %}
+{% if alertmanager_wechat_corp_id | length %}
+  wechat_api_corp_id: {{ alertmanager_wechat_corp_id | quote }}
+{% endif %}
+templates:
+- '{{ alertmanager_config_dir }}/templates/*.tmpl'
+{% if alertmanager_receivers | length %}
+receivers:
+{{ alertmanager_receivers | to_nice_yaml(indent=2) }}
+{% endif %}
+{% if alertmanager_inhibit_rules | length %}
+inhibit_rules:
+{{ alertmanager_inhibit_rules | to_nice_yaml(indent=2) }}
+{% endif %}
+route:
+  {{ alertmanager_route | to_nice_yaml(indent=2) | indent(2, False) }}
+{% if alertmanager_child_routes | length %}
+  routes:
+  {{ alertmanager_child_routes | to_nice_yaml(indent=2) | indent(2, False) }}
+{% endif %}

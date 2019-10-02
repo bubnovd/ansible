@@ -1,0 +1,14 @@
+alertmanager_web_listen_address: "127.0.0.1:9093"
+
+alertmanager_receivers:
+  - name: alertmanager-bot
+    webhook_configs:
+      - send_resolved: true
+        url: "http://127.0.0.1:8080"
+
+alertmanager_route:
+  group_by: ["alertname", "cluster", "service"]
+  group_wait: 1m
+  group_interval: 30m
+  repeat_interval: 24h
+  receiver: alertmanager-bot

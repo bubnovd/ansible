@@ -1,0 +1,13 @@
+---
+- name: reload grok exporter
+  become: true
+  systemd:
+    daemon_reload: true
+    name: grok_exporter
+    state: reloaded
+
+- name: restart grok exporter
+  become: true
+  systemd:
+    name: grok_exporter
+    state: restarted

@@ -1,0 +1,19 @@
+---
+
+- name: Naive assertion for ansible_service_mgr (fail on unsupported init systems)
+  assert:
+    that:
+      - ansible_service_mgr == "systemd"
+    fail_msg: "this role work only with systemd distributives"
+
+- name: Naive assertion for alertmanager_bot_telegram_token
+  assert:
+    that:
+      - alertmanager_bot_telegram_token != "example"
+    fail_msg: "alertmanager_bot_telegram_token is required"
+
+- name: Naive assertion for alertmanager_bot_telegram_admins
+  assert:
+    that:
+      - alertmanager_bot_telegram_admins|length > 0
+    fail_msg: "alertmanager_bot_telegram_admins must not be empty"

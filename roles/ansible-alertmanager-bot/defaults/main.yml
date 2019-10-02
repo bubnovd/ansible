@@ -1,0 +1,26 @@
+---
+
+alertmanager_bot_version: 0.4.0
+
+alertmanager_bot_download_url: "https://github.com/metalmatze/alertmanager-bot/releases/download/{{ alertmanager_bot_version }}/{{ alertmanager_bot_file_name }}"
+alertmanager_bot_file_name: "alertmanager-bot-{{ alertmanager_bot_version }}-linux-{{ go_arch_map[ansible_architecture] | default(ansible_architecture) }}"
+
+alertmanager_bot_user: am-bot
+alertmanager_bot_group: "{{ alertmanager_bot_user }}"
+
+alertmanager_bot_root_dir: /opt/alertmanager_bot
+alertmanager_bot_release_dir: "{{ alertmanager_bot_root_dir }}/current"
+alertmanager_bot_shared_dir: "{{ alertmanager_bot_root_dir }}/shared"
+
+alertmanager_bot_listen_address: "127.0.0.1:8080"
+alertmanager_bot_log_level: "info"
+alertmanager_bot_alertmanager_url: "http://127.0.0.1:9093"
+alertmanager_bot_store: "bolt"
+alertmanager_bot_bolt_path: "{{ alertmanager_bot_shared_dir }}/am_bot.db"
+alertmanager_bot_consul_url: "http://127.0.0.1:8500"
+alertmanager_bot_telegram_admins: []
+alertmanager_bot_telegram_token: "example"
+
+alertmanager_bot_default_template_file: default.tmpl
+
+alertmanager_bot_env_vars: []

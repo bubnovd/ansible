@@ -1,0 +1,8 @@
+---
+- hosts: all
+  roles:
+    - ansible-grok-exporter
+  vars:
+    __testing_on_travis: true
+    grok_exporter_web_listen_address: "127.0.0.1:9116"
+    grok_exporter_config_file: mikrotik.yml

@@ -1,0 +1,56 @@
+{{ ansible_managed | comment }}
+
+[Unit]
+Description=Prometheus
+After=network-online.target
+
+[Service]
+Type=simple
+Environment="GOMAXPROCS={{ ansible_processor_vcpus|default(ansible_processor_count) }}"
+User=prometheus
+Group=prometheus
+ExecReload=/bin/kill -HUP $MAINPID
+ExecStart=/usr/local/bin/prometheus \
+  --config.file={{ prometheus_config_dir }}/prometheus.yml \
+  --storage.tsdb.path={{ prometheus_db_dir }} \
+{% if prometheus_version is version_compare('2.7.0', '>=') %}
+  --storage.tsdb.retention.time={{ prometheus_storage_retention }} \
+  --storage.tsdb.retention.size={{ prometheus_storage_retention_size }} \
+{% else %}
+  --storage.tsdb.retention={{ prometheus_storage_retention }} \
+{% endif %}
+  --web.console.libraries={{ prometheus_config_dir }}/console_libraries \
+  --web.console.templates={{ prometheus_config_dir }}/consoles \
+  --web.listen-address={{ prometheus_web_listen_address }} \
+  --web.external-url={{ prometheus_web_external_url }}{% for flag, flag_value in prometheus_config_flags_extra.items() %}\
+  --web.enable-lifecycle \
+  --{{ flag }}{% if flag_value %}={{ flag_value }}{% endif %} {% endfor %}
+
+PrivateTmp=true
+PrivateDevices=true
+ProtectHome=true
+NoNewPrivileges=true
+LimitNOFILE=infinity
+{% if prometheus_systemd_version | int >= 231 %}
+ReadWritePaths={{ prometheus_db_dir }}
+{% else %}
+ReadWriteDirectories={{ prometheus_db_dir }}
+{% endif %}
+{% if prometheus_systemd_version | int >= 232 %}
+ProtectSystem=strict
+ProtectControlGroups=true
+ProtectKernelModules=true
+ProtectKernelTunables=true
+{% else %}
+ProtectSystem=full
+{% endif %}
+
+{% if http_proxy is defined %}
+Environment="HTTP_PROXY={{ http_proxy }}"{% if https_proxy is defined %} "HTTPS_PROXY={{ https_proxy }}{% endif %}"
+{% endif %}
+
+SyslogIdentifier=prometheus
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,26 @@
+---
+- include: preflight.yml
+  tags:
+    - alertmanager_install
+    - alertmanager_configure
+    - alertmanager_run
+
+- include: install.yml
+  become: true
+  tags:
+    - alertmanager_install
+
+- include: configure.yml
+  become: true
+  tags:
+    - alertmanager_configure
+
+- name: ensure alertmanager service is started and enabled
+  become: true
+  systemd:
+    daemon_reload: true
+    name: alertmanager
+    state: started
+    enabled: true
+  tags:
+    - alertmanager_run

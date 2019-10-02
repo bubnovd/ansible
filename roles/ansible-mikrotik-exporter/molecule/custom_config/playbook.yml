@@ -1,0 +1,8 @@
+---
+- hosts: all
+  roles:
+    - ansible-mikrotik-exporter
+  vars:
+    __testing_on_travis: true
+    mikrotik_exporter_web_listen_address: "127.0.0.1:9116"
+    mikrotik_exporter_config_file: mikrotik.yml

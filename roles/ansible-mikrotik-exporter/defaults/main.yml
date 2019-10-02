@@ -1,0 +1,24 @@
+# If this is empty, role will download mikrotik.yml file from "https://github.com/devi1/mikrotik-exporter/raw/master/config/test/config.test.yml"
+mikrotik_exporter_config_file: ""
+
+mikrotik_exporter_listen_address: "127.0.0.1"
+mikrotik_exporter_listen_port: "9436"
+
+mikrotik_exporter_user: "mikrotik-exporter"
+mikrotik_exporter_group: "{{ mikrotik_exporter_user }}"
+
+mikrotik_exporter_bgp_metrics: "false"
+mikrotik_exporter_dhcp_metrics: "true"
+mikrotik_exporter_dhcpv6_metrics: "false"
+mikrotik_exporter_dhcpl_metrics: "true"
+mikrotik_exporter_routes_metrics: "true"
+mikrotik_exporter_pools_metrics: "true"
+mikrotik_exporter_optics_metrics: "false"
+mikrotik_exporter_wlansta_metrics: "false"
+mikrotik_exporter_wlanif_metrics: "false"
+mikrotik_exporter_monitor_metrics: "true"
+
+mikrotik_exporter_username: exporter
+mikrotik_exporter_password: "{{ vault_mikrotik_exporter_password }}"
+
+mikrotik_exporter_targets: ["127.0.0.1"]

@@ -1,0 +1,6 @@
+---
+
+alertmanager_bot_telegram_token: 123456
+alertmanager_bot_telegram_admins:
+  - 1
+  - 2

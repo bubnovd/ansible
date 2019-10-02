@@ -1,0 +1,5 @@
+snmp_exporter_web_listen_address: "127.0.0.1:9116"
+snmp_exporter_config_file: files/snmp.yml
+snmp_exporter_auth_protocol: MD5
+snmp_exporter_priv_protocol: DES
+snmp_exporter_security_level: authPriv

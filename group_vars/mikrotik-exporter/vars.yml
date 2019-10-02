@@ -1,0 +1,17 @@
+mikrotik_exporter_username: monitoring
+mikrotik_exporter_password: "{{ vault_mikrotik_exporter_password }}"
+
+mikrotik_exporter_targets: "{{ mikrotik_targets }}"
+
+mikrotik_exporter_bgp_metrics: "false"
+mikrotik_exporter_dhcp_metrics: "true"
+mikrotik_exporter_dhcpv6_metrics: "false"
+mikrotik_exporter_dhcpl_metrics: "true"
+mikrotik_exporter_routes_metrics: "false"
+mikrotik_exporter_pools_metrics: "false"
+mikrotik_exporter_optics_metrics: "false"
+mikrotik_exporter_wlansta_metrics: "false"
+mikrotik_exporter_wlanif_metrics: "false"
+mikrotik_exporter_monitor_metrics: "true"
+
+

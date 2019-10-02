@@ -1,0 +1,30 @@
+---
+galaxy_info:
+  author: Pawel Krupa
+  description: Prometheus SNMP Exporter
+  license: MIT
+  company: none
+  min_ansible_version: 2.5
+  platforms:
+  - name: Ubuntu
+    versions:
+    - xenial
+  - name: Debian
+    versions:
+    - jessie
+    - stretch
+  - name: EL
+    versions:
+    - 7
+  - name: Fedora
+    versions:
+    - 27
+  galaxy_tags:
+  - monitoring
+  - prometheus
+  - exporter
+  - system
+  - network
+  - metrics
+
+dependencies: []

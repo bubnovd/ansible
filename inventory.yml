@@ -1,0 +1,30 @@
+monitoring ansible_host=10.0.0.1 ansible_user=administrator ansible_port=40322  ansible_sudo_pass="{{ vault_ansible_sudo_pass  }}"
+erapi ansible_host=10.0.0.2 ansible_user=administrator ansible_port=22 ansible_sudo_pass="{{ vault_ansible_sudo_pass }}"
+
+[prometheus]
+monitoring
+
+[node-exporter]
+monitoring
+
+[snmp-exporter]
+monitoring
+
+[mikrotik-exporter]
+monitoring
+
+[blackbox]
+monitoring
+
+[grafana]
+monitoring
+
+[alertmanager]
+monitoring
+
+[alertmanager-bot]
+monitoring
+
+[grok-exporter]
+erapi
+

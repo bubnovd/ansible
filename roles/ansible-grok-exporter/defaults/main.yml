@@ -1,0 +1,14 @@
+grok_exporter_version: 0.2.8
+
+grok_exporter_config_file: "/etc/grok-exporter/config.yml"
+grok_exporter_web_listen_address: "0.0.0.0"
+grok_exporter_web_listen_port: "9144"
+
+grok_exporter_user: "grok-exporter"
+grok_exporter_group: "{{ grok_exporter_user }}"
+grok_exporter_additional_groups: []
+
+grok_exporter_logs_path: "/var/log/"
+grok_exporter_readall: "false" # Read from the beginning of the file? False means we start at the end of the file and read only new lines.
+grok_exporter_patterns_dir: "/etc/grok-exporter/patterns"
+

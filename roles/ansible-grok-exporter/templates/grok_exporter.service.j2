@@ -1,0 +1,21 @@
+[Unit]
+Description=Prometheus grok Exporter
+After=network-online.target
+StartLimitInterval=0
+
+[Service]
+Type=simple
+User={{ grok_exporter_user }}
+Group={{ grok_exporter_group }}
+ExecReload=/bin/kill -HUP $MAINPID
+ExecStart=/usr/local/bin/grok_exporter \
+  -config {{ grok_exporter_config_file }}
+
+KillMode=process
+
+SyslogIdentifier=grok_exporter
+Restart=always
+RestartSec=1
+
+[Install]
+WantedBy=multi-user.target

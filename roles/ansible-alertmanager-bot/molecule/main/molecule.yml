@@ -1,0 +1,53 @@
+---
+
+scenario:
+  name: main
+  test_sequence:
+    - lint
+    - destroy
+    - dependency
+    - syntax
+    - create
+    - prepare
+    - converge
+    - idempotence
+    - verify
+    - destroy
+
+driver:
+  name: docker
+
+dependency:
+  name: galaxy
+
+lint:
+  name: yamllint
+
+platforms:
+  - name: centos7
+    image: centos:7
+    dockerfile_tpl: centos-systemd
+  - name: ubuntu1604
+    image: ubuntu:16.04
+    dockerfile_tpl: debian-systemd
+  - name: debian9
+    image: debian:stretch
+    dockerfile_tpl: debian-systemd
+
+provisioner:
+  name: ansible
+  options:
+    diff: true
+    v: true
+  lint:
+    name: ansible-lint
+  playbooks:
+    create: ../resources/create.yml
+    prepare: ../resources/prepare.yml
+    destroy: ../resources/destroy.yml
+
+verifier:
+  name: testinfra
+  directory: ../resources/tests/all
+  lint:
+    name: flake8

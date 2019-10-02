@@ -1,0 +1,4 @@
+grok_exporter_version: 0.2.8
+grok_exporter_web_listen_address: "10.0.0.2"
+grok_exporter_logs_path: "/var/log/nginx/erapi.bubnovd.net.access.log"
+grok_exporter_additional_groups: [adm]

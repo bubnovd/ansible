@@ -1,0 +1,20 @@
+---
+- include: install.yml
+  become: true
+  tags:
+    - grok_exporter_install
+
+- include: configure.yml
+  become: true
+  tags:
+    - grok_exporter_configure
+
+- name: ensure grok_exporter service is started and enabled
+  become: true
+  systemd:
+    daemon_reload: true
+    name: grok_exporter
+    state: started
+    enabled: true
+  tags:
+    - grok_exporter_run

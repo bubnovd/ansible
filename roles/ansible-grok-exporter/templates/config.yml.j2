@@ -1,0 +1,34 @@
+{{ ansible_managed | comment }}
+
+
+global:
+    config_version: 2
+input:
+    type: file
+    path: {{ grok_exporter_logs_path}}
+    readall: {{ grok_exporter_readall }}
+grok:
+    patterns_dir: {{ grok_exporter_patterns_dir }}
+
+metrics:
+    - type: gauge
+      name: grok_nginx_request_bytes
+      help: Request bytes
+      {% raw %}match: '%{IPORHOST:clientip} %{HTTPDUSER:ident} %{USER:auth} \[%{HTTPDATE:timestamp}\] "(?:%{WORD:verb} %{NOTSPACE:request}(?: HTTP/%{NUMBER:httpversion})?|%{DATA:rawrequest})" %{NUMBER:response} (?:%{NUMBER:bytes}|-)'
+      value: '{{.bytes}}'
+      labels:
+          client: '{{.clientip}}'{% endraw %} 
+      retention: 1m
+    
+    - type: gauge
+      name: grok_nginx_request_bytes_sum
+      help: Request bytes total
+      {% raw %}match: '%{IPORHOST:clientip} %{HTTPDUSER:ident} %{USER:auth} \[%{HTTPDATE:timestamp}\] "(?:%{WORD:verb} %{NOTSPACE:request}(?: HTTP/%{NUMBER:httpversion})?|%{DATA:rawrequest})" %{NUMBER:response} (?:%{NUMBER:bytes}|-)'
+      value: '{{.bytes}}'
+      labels:
+          client: '{{.clientip}}'{% endraw %} 
+      cumulative: true
+
+server:
+    host: {{ grok_exporter_web_listen_address }}
+    port: {{ grok_exporter_web_listen_port }}

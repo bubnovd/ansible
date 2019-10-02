@@ -1,0 +1,70 @@
+- name: Deploy node exporter
+  hosts: node-exporter
+  roles:
+    - ansible-node-exporter
+  tags:
+    - node-exporter
+
+- name: Deploy prometheus
+  hosts: prometheus
+  roles:
+    - ansible-prometheus
+  tags:
+    - prometheus
+    - monitoring
+
+- name: Deploy snmp-exporter
+  hosts: prometheus
+  roles:
+    - ansible-snmp-exporter
+  tags:
+    - monitoring
+    - snmp-exporter
+
+- name: Deploy mikrotik-exporter
+  hosts: mikrotik-exporter
+  roles:
+    - ansible-mikrotik-exporter
+  tags:
+    - monitoring
+    - mikrotik-exporter    
+
+- name: Deploy blackbox-exporter
+  hosts: prometheus
+  roles:
+    - ansible-blackbox-exporter
+  tags:
+    - monitoring
+    - blackbox-exporter
+
+- name: Deploy grafana
+  hosts: grafana
+  roles:
+    - ansible-grafana
+  tags:
+    - grafana
+    - monitoring
+
+- name: Deploy alertmanager
+  hosts: alertmanager
+  roles:
+    - ansible-alertmanager
+  tags:
+    - alertmanager
+    - monitoring
+
+- name: Deploy alertmanager telegram bot
+  hosts: alertmanager-bot
+  roles:
+    - ansible-alertmanager-bot
+  tags:
+    - alertmanager-bot
+    - monitoring 
+
+- name: Deploy grok exporter
+  hosts: grok-exporter
+  roles:
+    - ansible-grok-exporter
+  tags:
+    - grok-exporter
+    - monitoring 

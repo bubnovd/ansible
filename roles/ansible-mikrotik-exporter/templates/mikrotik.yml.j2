@@ -1,0 +1,30 @@
+{{ ansible_managed | comment }}
+
+devices:
+{% for k in mikrotik_exporter_targets %}
+  - name: {{ k }}
+    address: {{ k }}
+    user: {{ mikrotik_exporter_username }}
+    password: {{ mikrotik_exporter_password }}
+{% endfor %}
+
+features:
+  bgp: {{ mikrotik_exporter_bgp_metrics }}
+  dhcp: {{ mikrotik_exporter_dhcp_metrics }}
+  dhcpv6: {{ mikrotik_exporter_dhcpv6_metrics }}
+  dhcpl: {{ mikrotik_exporter_dhcpl_metrics }}
+  routes: {{ mikrotik_exporter_routes_metrics }}
+  pools: {{ mikrotik_exporter_pools_metrics }}
+  optics: {{ mikrotik_exporter_optics_metrics }}
+  wlansta: {{ mikrotik_exporter_wlansta_metrics }}
+  wlanif: {{ mikrotik_exporter_wlanif_metrics }}
+  monitor: {{ mikrotik_exporter_monitor_metrics }}
+
+
+
+
+
+
+
+
+

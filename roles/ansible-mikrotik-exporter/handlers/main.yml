@@ -1,0 +1,13 @@
+---
+- name: reload mikrotik exporter
+  become: true
+  systemd:
+    daemon_reload: true
+    name: mikrotik_exporter
+    state: reloaded
+
+- name: restart mikrotik exporter
+  become: true
+  systemd:
+    name: mikrotik_exporter
+    state: restarted

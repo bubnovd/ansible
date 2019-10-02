@@ -1,0 +1,30 @@
+---
+- name: Copy the grok Exporter systemd service file
+  template:
+    src: grok_exporter.service.j2
+    dest: /etc/systemd/system/grok_exporter.service
+    owner: "{{ grok_exporter_user }}"
+    group: "{{ grok_exporter_group }}"
+    mode: 0640
+  notify:
+    - restart grok exporter
+
+- name: Create grok-exporter main configuration file
+  template:
+    src: config.yml.j2
+    dest: "{{ grok_exporter_config_file }}"
+    owner: "{{ grok_exporter_user }}"
+    group: "{{ grok_exporter_group }}"
+    mode: 0640
+  no_log: false
+  notify: reload grok exporter
+
+- name: Propagate grok-exporter patterns
+  copy:
+    src: "{{ item }}"
+    dest: "{{ grok_exporter_patterns_dir }}"
+    force: true
+    owner: "{{ grok_exporter_user }}"
+    group: "{{ grok_exporter_group }}"
+    mode: 0644
+  with_fileglob: files/*pattern*

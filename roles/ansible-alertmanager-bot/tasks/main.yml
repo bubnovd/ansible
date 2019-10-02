@@ -1,0 +1,13 @@
+---
+
+- include: preflight.yml
+
+- include: install.yml
+  become: true
+
+- name: ensure alertmanager_bot service is started and enabled
+  become: true
+  systemd:
+    name: alertmanager_bot
+    state: started
+    enabled: true

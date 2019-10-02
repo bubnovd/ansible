@@ -1,0 +1,10 @@
+---
+
+- name: Prepare the Molecule Test Resources
+  hosts: all
+  tasks:
+    - name: update apt cache
+      apt:
+        update_cache: true
+        cache_valid_time: 3600
+      when: ansible_os_family == "Debian"
