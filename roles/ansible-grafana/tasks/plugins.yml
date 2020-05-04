@@ -11,7 +11,6 @@
   command: "grafana-cli --pluginsDir {{ grafana_data_dir }}/plugins plugins install {{ item }}"
   args:
     creates: "{{ grafana_data_dir }}/plugins/{{ item }}"
-  environment: "{{proxy_env}}"
   with_items: "{{ grafana_plugins | difference(installed_plugins.files) }}"
   register: _plugin_install
   until: _plugin_install is succeeded

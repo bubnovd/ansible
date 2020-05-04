@@ -1,3 +1,4 @@
+alertmanager_version: 0.20.0
 alertmanager_web_listen_address: "127.0.0.1:9093"
 
 alertmanager_receivers:

@@ -17,7 +17,7 @@ grafana_datasources:
 grafana_plugins:
   - camptocamp-prometheus-alertmanager-datasource
 
-grafana_dashboards_dir: "/ansible/roles/ansible-grafana/dashboards"
+grafana_dashboards_dir: "/home/devi1/Documents/ansible/roles/ansible-grafana/dashboards"
 
 #grafana_auth:            
 #  ldap:                  
