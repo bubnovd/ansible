@@ -13,14 +13,6 @@
     - prometheus
     - monitoring
 
-- name: Deploy snmp-exporter
-  hosts: prometheus
-  roles:
-    - ansible-snmp-exporter
-  tags:
-    - monitoring
-    - snmp-exporter
-
 - name: Deploy mikrotik-exporter
   hosts: mikrotik-exporter
   roles:
@@ -30,7 +22,7 @@
     - mikrotik-exporter    
 
 - name: Deploy blackbox-exporter
-  hosts: prometheus
+  hosts: blackbox-exporter 
   roles:
     - ansible-blackbox-exporter
   tags:
@@ -53,18 +45,11 @@
     - alertmanager
     - monitoring
 
-- name: Deploy alertmanager telegram bot
-  hosts: alertmanager-bot
-  roles:
-    - ansible-alertmanager-bot
-  tags:
-    - alertmanager-bot
-    - monitoring 
-
-- name: Deploy grok exporter
-  hosts: grok-exporter
-  roles:
-    - ansible-grok-exporter
-  tags:
-    - grok-exporter
-    - monitoring 
+      #- name: Deploy alertmanager telegram bot
+      #  hosts: alertmanager-bot
+      #  roles:
+      #    - ansible-alertmanager-bot
+      #  tags:
+      #    - alertmanager-bot
+      #    - monitoring 
+      #

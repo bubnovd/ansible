@@ -1,5 +1,5 @@
-prometheus_storage_retention: "500d"
-prometheus_storage_retention_size: "40GB"
+prometheus_storage_retention: "100d"
+prometheus_storage_retention_size: "20GB"
 prometheus_web_listen_address: "localhost:9090"
 
 prometheus_alertmanager_config:
@@ -14,10 +14,6 @@ prometheus_targets:
         "{{ groups['node-exporter'] | map('extract', hostvars, ['ansible_host']) | map('regex_replace', '$', ':9100') | list }}"
       labels:
         env: prod
-  snmp:
-    - targets: "{{ snmp_targets }}"
-      labels:
-        env: prod
   icmp:
     - targets: "{{ icmp_targets }}"
       labels:
@@ -25,6 +21,7 @@ prometheus_targets:
   http:
     - targets: 
       - "http://bubnovd.net"
+      - "https://mikrotik-ninja.ru"
       labels:
         env: prod
   alertmanager:
@@ -37,12 +34,6 @@ prometheus_targets:
        - "127.0.0.1:3000"
        labels:
          env: prod
-  netdata:
-    - targets:
-      - "127.0.0.1:19999"
-      - "127.0.0.2:19999"
-      labels:
-        env: prod
 
 prometheus_scrape_configs:
   - job_name: "prometheus"
@@ -54,22 +45,6 @@ prometheus_scrape_configs:
     file_sd_configs:
       - files:
         - "/etc/prometheus/file_sd/node.yml"
-  - job_name: "snmp"
-    scrape_timeout: "60s"
-    scrape_interval: "120s"
-    metrics_path: "/snmp"
-    params:
-      module: [mikrotik]
-    relabel_configs:
-      - source_labels: [__address__]
-        target_label: __param_target
-      - source_labels: [__param_target]
-        target_label: instance
-      - target_label: __address__
-        replacement: localhost:9116
-    file_sd_configs:
-      - files:
-        - "/etc/prometheus/file_sd/snmp.yml"
   - job_name: "icmp"
     scrape_interval: "10s"
     scrape_timeout: "2s"
@@ -108,14 +83,6 @@ prometheus_scrape_configs:
     file_sd_configs:
       - files:
         - "/etc/prometheus/file_sd/grafana.yml"
-  - job_name: "netdata"
-    metrics_path: "/api/v1/allmetrics"
-    params:
-      format: [prometheus]
-    honor_labels: true
-    file_sd_configs:
-      - files:
-        - "/etc/prometheus/file_sd/netdata.yml"    
   - job_name: "mikrotik"
     scrape_timeout: "60s"
     scrape_interval: "120s"
@@ -123,10 +90,3 @@ prometheus_scrape_configs:
     static_configs:
       - targets:
         - "127.0.0.1:9436"
-  - job_name: "grok"
-    scrape_timeout: "60s"
-    scrape_interval: "60s"
-    metrics_path: "/metrics"
-    static_configs:
-      - targets:
-          "{{ groups['grok-exporter'] | map('extract', hostvars, ['ansible_host']) | map('regex_replace', '$', ':9144') | list }}"
