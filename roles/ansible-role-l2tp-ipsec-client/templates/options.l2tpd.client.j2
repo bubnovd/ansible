@@ -1,0 +1,17 @@
+# Managed by Ansible
+
+ipcp-accept-local
+ipcp-accept-remote
+refuse-eap
+require-mschap-v2
+noccp
+noauth
+idle 1800
+mtu {{ l2tp_ipsec_mtu }}
+mru {{ l2tp_ipsec_mru }}
+usepeerdns
+debug
+connect-delay 5000
+name {{ l2tp_ipsec_client_username }} 
+password {{ l2tp_ipsec_client_password }} 
+

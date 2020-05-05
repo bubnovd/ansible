@@ -1,0 +1,7 @@
+---
+- name: Creates every minutes check script cronjob.
+  cron:
+    name: "Check VPN connection (every minutes schedule)"
+    user: root
+    job: "sh /usr/local/sbin/vpn-connect.sh"
+    cron_file: vpn-client

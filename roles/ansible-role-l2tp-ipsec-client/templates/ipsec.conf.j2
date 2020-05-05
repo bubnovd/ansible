@@ -1,0 +1,26 @@
+# Managed by ansible
+
+config setup
+  virtual_private=%v4:10.0.0.0/8,%v4:192.168.0.0/16,%v4:172.16.0.0/12
+  nat_traversal=yes
+  protostack=netkey
+  oe=off
+  plutoopts=“--interface=eth0”
+
+conn L2TP-PSK
+  authby=secret
+  pfs=no
+  auto=add
+  keyingtries=3
+  dpddelay=10
+  dpdtimeout=90
+  dpdaction=clear
+  rekey=no
+  ikelifetime=8h
+  keylife=1h
+  type=transport
+  left=%defaultroute
+  leftnexthop=%defaultroute
+  leftprotoport=17/33333
+  rightprotoport=17/1701
+  right={{ l2tp_ipsec_server_host }}

@@ -1,0 +1,84 @@
+---
+# install
+- name: Ensure l2tp-ipsec client packages are installed.
+  package:
+    name: "{{ item }}"
+    state: present
+  become: true
+  with_items: [ xl2tpd, libreswan, lsof ]
+
+# configure ipsec
+- name: Copy ipsec configuration in place.
+  copy:
+    src: ipsec.conf
+    dest: /etc/ipsec.conf
+    mode: 00640
+  notify:
+    - restart vpn-client
+
+- name: Copy pre-shared-key in place.
+  template:
+    src: default.secrets.j2
+    dest: /etc/ipsec.d/default.secrets
+    mode: 00640
+  notify:
+    - restart vpn-client
+
+- name: Copy ipsec connect configuration in place.
+  template:
+    src: ipsec.conf.j2
+    dest: /etc/ipsec.conf
+    mode: 00640
+  notify:
+    - restart vpn-client
+
+# configure xl2tpd
+- name: Copy xl2tpd configuration in place.
+  template:
+    src: xl2tpd.conf.j2
+    dest: /etc/xl2tpd/xl2tpd.conf
+    mode: 00640
+  notify:
+    - restart vpn-client
+
+- name: Copy xl2tpd options in place.
+  template:
+    src: options.l2tpd.client.j2
+    dest: /etc/ppp/options.l2tpd.client
+    mode: 00640
+  notify:
+    - restart vpn-client
+
+- name: Copy chap authentication in place.
+  template:
+    src: chap-secrets.j2
+    dest: /etc/ppp/chap-secrets
+    mode: 00640
+  notify:
+    - restart vpn-client
+
+- name: Copy vpn connection script in place.
+  template:
+    src: vpn-connect.sh.j2
+    dest: /usr/local/sbin/vpn-connect.sh
+    mode: 00750
+  notify:
+    - restart vpn-client
+
+# service
+- include: "debian-{{ ansible_distribution_major_version }}.yml"
+
+- name: Ensure xl2tpd is started and enabled to start at boot.
+  service: name=xl2tpd state=started enabled=yes
+  when: ansible_connection != 'docker'
+
+- name: Ensure ipsec is started and enabled to start at boot.
+  service: name=ipsec state=started enabled=yes
+  when: ansible_connection != 'docker'
+
+- name: Copy docker endpoint script.
+  template:
+    src: docker-endpoint.sh.j2
+    dest: /docker-endpoint.sh
+    mode: 0755
+  when: ansible_connection == 'docker'

@@ -12,7 +12,9 @@ prometheus_alertmanager_config:
 prometheus_targets:
   node:
     - targets:
-        "{{ groups['node-exporter'] | map('extract', hostvars, ['ansible_host']) | map('regex_replace', '$', ':9100') | list }}"
+            #        "{{ groups['node-exporter'] | map('extract', hostvars, ['ansible_host']) | map('regex_replace', '$', ':9100') | list }}"
+            - "10.255.251.1:9100"
+            - "127.0.0.1:9100"
       labels:
         env: prod
   icmp:

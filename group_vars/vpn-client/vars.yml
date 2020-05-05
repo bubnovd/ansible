@@ -1,0 +1,8 @@
+---
+# common
+l2tp_ipsec_server_host: "{{ vault_l2tp_ipsec_server_host }}"
+l2tp_ipsec_PSK: "{{ vault_l2tp_ipsec_PSK }}"
+
+l2tp_ipsec_client_username: "{{ vault_l2tp_ipsec_client_username }}"
+l2tp_ipsec_client_password: "{{ vault_l2tp_ipsec_client_password }}"
+l2tp_ipsec_client_cidr: 10.0.0.0/8

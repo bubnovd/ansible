@@ -1,0 +1,13 @@
+---
+
+- name: Copy vpn-client service in place.
+  copy:
+    src: vpn-client.service
+    dest: /etc/systemd/system/vpn-client.service
+    mode: 00644
+  notify:
+    - reload daemon
+
+- name: Ensure vpn-client is started and enabled to start at boot.
+  service: name=vpn-client state=started enabled=yes
+  when: ansible_connection != 'docker'

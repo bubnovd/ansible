@@ -1,0 +1,10 @@
+---
+# common
+l2tp_ipsec_server_host: vpn.example.com
+l2tp_ipsec_PSK: pre_shared_key
+l2tp_ipsec_mtu: 1410
+l2tp_ipsec_mru: 1410
+
+l2tp_ipsec_client_username: username
+l2tp_ipsec_client_password: password
+l2tp_ipsec_client_cidr: 192.168.1.0/24

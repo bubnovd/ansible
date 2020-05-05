@@ -1,0 +1,11 @@
+---
+- name: restart vpn-client
+  service:
+    name: "{{ item }}"
+    state: restarted
+  with_items: [ ipsec, xl2tpd ]
+  when: ansible_connection != 'docker'
+
+- name: reload daemon
+  command: systemctl daemon-reload
+  when: ansible_connection != 'docker'

@@ -1,0 +1,13 @@
+# Managed by ansible
+
+[Unit]
+Description = VPN client
+
+[Service]
+ExecStart = /usr/local/sbin/vpn-connect.sh
+ExecStop = /sbin/xl2tpd-control disconnect L2TP1
+Restart = always
+Type = simple
+
+[Install]
+WantedBy = multi-user.target

@@ -1,0 +1,23 @@
+#!/bin/sh
+# Managed by ansible
+
+export PATH=$PATH:/usr/sbin
+
+{% if ansible_distribution_major_version == "7" %}
+while true
+do
+{% endif %}
+  ip a | grep -E 'inet.+ppp'
+
+  if [ "$?" -eq 1 ]; then
+    echo "c vpn-connection" > /var/run/xl2tpd/l2tp-control
+    sleep 5
+    ip=$(ip a | grep -oP '(?<=peer ).+(?=\/32)')
+    num=$(ip a | grep -oP '(?<=global ppp)[0-9](?=)')
+    ip route add {{ l2tp_ipsec_client_cidr }} via ${ip} dev ppp${num}
+    echo "ip route add {{ l2tp_ipsec_client_cidr }} via ${ip} dev ppp${num}"
+  fi
+{% if ansible_distribution_major_version == "7" %}
+  sleep 35
+done
+{% endif %}

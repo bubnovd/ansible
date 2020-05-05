@@ -1,0 +1,20 @@
+# Managed by ansible
+
+conn PEER_L2TP
+  authby=secret
+  pfs=no
+  auto=add
+  keyingtries=3
+  dpddelay=10
+  dpdtimeout=90
+  dpdaction=clear
+  rekey=no
+  ikelifetime=8h
+  keylife=1h
+  type=transport
+  left=%defaultroute
+  leftnexthop=%defaultroute
+  leftprotoport=17/33333
+  rightprotoport=17/1701
+  right={{ l2tp_ipsec_server_host }}
+

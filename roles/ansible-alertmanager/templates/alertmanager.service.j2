@@ -30,6 +30,7 @@ ExecStart=/usr/local/bin/alertmanager \
   {{ pre }}-{{ cluster_flag }}.{{ option }}={{ value }} \
 {%   endif %}
 {% endfor %}
+  {{ pre }}-cluster.listen-address="" \
   {{ pre }}-config.file={{ alertmanager_config_dir }}/alertmanager.yml \
   {{ pre }}-storage.path={{ alertmanager_db_dir }} \
   {{ pre }}-web.listen-address={{ alertmanager_web_listen_address }} \
