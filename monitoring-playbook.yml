@@ -81,6 +81,47 @@
     - grafana
     - monitoring
 
+- name: Deploy Loki
+  hosts: loki
+  roles:
+    - softasap.sa_loki_promtail
+  tags:
+    - loki
+    - monitoring
+
+- name: Configure promtail and RSyslog 
+  hosts: loki 
+  tasks:
+    - blockinfile:
+        path: "{{ loki_config_dir }}/config.yml"
+        block: |2
+            - job_name: rsyslog
+              syslog:
+                listen_address: 127.0.0.1:1514
+                idle_timeout: 60s
+                labels:
+                  job: rsyslog
+              relabel_configs:
+                - source_labels: ['__syslog_message_hostname']
+                  target_label: 'host'
+                - source_labels: ['__syslog_message_severity']
+                  target_label: 'level'
+    - lineinfile:
+        path: /etc/rsyslog.conf
+        regexp: "{{ item.regexp }}"
+        line: "{{ item.line }}"
+      loop:
+        - { regexp: 'module\(load="imudp"\)', line: 'module(load="imudp")' }
+        - { regexp: 'input\(type="imudp" port="514"\)', line: 'input(type="imudp" port="514")' }
+    - lineinfile:
+        path: /etc/rsyslog.conf
+        insertbefore: '^auth,authpriv.*'
+        line: 'local0.* action(type="omfwd" target="127.0.0.1" protocol="tcp" port="1514" Template="RSYSLOG_SyslogProtocol23Format" TCP_Framing="octet-counted")'
+  become: yes
+  tags:
+    - loki
+  
+
 - name: Deploy alertmanager
   hosts: alertmanager
   roles:
