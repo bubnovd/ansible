@@ -104,6 +104,8 @@
               relabel_configs:
                 - source_labels: ['__syslog_message_hostname']
                   target_label: 'host'
+                - source_labels: ['__syslog_message_fromhostip']
+                  target_label: 'ip'
                 - source_labels: ['__syslog_message_severity']
                   target_label: 'level'
     - lineinfile:
