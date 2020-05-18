@@ -1,21 +1,4 @@
 prometheus_web_external_url: "http://localhost:9090"
-grafana_domain: grafana.nmc.bubnovd.net
-cert_crt_path: "~/tmp/ssl/crt/"
-cert_key_path: "~/tmp/etc/ssl/private/"
-cert_csr_path: "~/tmp/ssl/csr/"
-
-grafana_server:
-  protocol: https
-  enforce_domain: false
-  socket: ""
-  cert_key: "/tmp/grafana.nmc.bubnovd.net.pem"
-  cert_file: "/tmp/grafana.nmc.bubnovd.net.crt"
-  enable_gzip: false
-  static_root_path: public
-  router_logging: false
-
-grafana_port: 443
-grafana_cap_net_bind_service: true
 
 grafana_security:
   admin_user: admin
@@ -30,10 +13,6 @@ grafana_datasources:
     type: "camptocamp-prometheus-alertmanager-datasource"
     access: "proxy"
     url: "http://localhost:9093"
-  - name: "Loki"
-    type: "loki" 
-    access: "proxy"
-    url: "http://localhost:3100"
 
 grafana_plugins:
   - camptocamp-prometheus-alertmanager-datasource

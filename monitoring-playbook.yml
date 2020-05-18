@@ -1,3 +1,25 @@
+- name: Deploy nginx
+  hosts: nginx
+  roles: 
+    - geerlingguy.nginx
+  tags:
+    - nginx
+
+- name: Install python-certbot-nginx
+  hosts: nginx
+  tasks:
+    - package:
+        name: python-certbot-nginx
+        state: present
+
+- name: Deploy certbot
+  hosts: nginx
+  roles:
+    - geerlingguy.certbot
+  tags:
+    - nginx
+    - certbot
+
 - name: Deploy node exporter
   hosts: node-exporter
   roles:
@@ -29,49 +51,49 @@
     - monitoring
     - blackbox-exporter
  
-- name: Make and copy certs
-  hosts: grafana
-  tasks:
-    - file:
-        path: "{{ item }}"
-        state: directory
-        mode: '0755'
-      delegate_to: localhost
-      loop:
-        - "{{ cert_crt_path }}"
-        - "{{ cert_key_path }}"
-        - "{{ cert_csr_path }}"
-
-    - openssl_privatekey:
-        path: "{{ cert_key_path }}grafana.nmc.bubnovd.net.pem"
-      delegate_to: localhost
-    
-    - openssl_csr:
-        path: "{{ cert_csr_path }}grafana.nmc.bubnovd.net.csr"
-        privatekey_path: "{{ cert_key_path }}grafana.nmc.bubnovd.net.pem"
-        common_name: "grafana.nmc.bubnovd.net"
-      delegate_to: localhost
-    
-    - openssl_certificate:
-        path: "{{ cert_crt_path }}grafana.nmc.bubnovd.net.crt"
-        privatekey_path: "{{ cert_key_path }}grafana.nmc.bubnovd.net.pem"
-        csr_path: "{{ cert_csr_path }}grafana.nmc.bubnovd.net.csr"
-        provider: selfsigned
-      delegate_to: localhost
-
-    - copy:
-        src: "{{ item.src }}"
-        dest: "{{ item.dst }}"
-        #        owner: grafana
-        #        group: grafana
-        mode: '0666'
-      loop:
-        - { src: "{{ cert_crt_path }}grafana.nmc.bubnovd.net.crt", dst: "/tmp/grafana.nmc.bubnovd.net.crt" }
-        - { src: "{{ cert_key_path }}grafana.nmc.bubnovd.net.pem", dst: "/tmp/grafana.nmc.bubnovd.net.pem" }
-      become: true
-  tags:
-    - grafana
-    - certs
+      #- name: Make and copy certs
+      #  hosts: grafana
+      #  tasks:
+      #    - file:
+      #        path: "{{ item }}"
+      #        state: directory
+      #        mode: '0755'
+      #      delegate_to: localhost
+      #      loop:
+      #        - "{{ cert_crt_path }}"
+      #        - "{{ cert_key_path }}"
+      #        - "{{ cert_csr_path }}"
+      #
+      #    - openssl_privatekey:
+      #        path: "{{ cert_key_path }}grafana.nmc.bubnovd.net.pem"
+      #      delegate_to: localhost
+      #    
+      #    - openssl_csr:
+      #        path: "{{ cert_csr_path }}grafana.nmc.bubnovd.net.csr"
+      #        privatekey_path: "{{ cert_key_path }}grafana.nmc.bubnovd.net.pem"
+      #        common_name: "grafana.nmc.bubnovd.net"
+      #      delegate_to: localhost
+      #    
+      #    - openssl_certificate:
+      #        path: "{{ cert_crt_path }}grafana.nmc.bubnovd.net.crt"
+      #        privatekey_path: "{{ cert_key_path }}grafana.nmc.bubnovd.net.pem"
+      #        csr_path: "{{ cert_csr_path }}grafana.nmc.bubnovd.net.csr"
+      #        provider: selfsigned
+      #      delegate_to: localhost
+      #
+      #    - copy:
+      #        src: "{{ item.src }}"
+      #        dest: "{{ item.dst }}"
+      #        #        owner: grafana
+      #        #        group: grafana
+      #        mode: '0666'
+      #      loop:
+      #        - { src: "{{ cert_crt_path }}grafana.nmc.bubnovd.net.crt", dst: "/tmp/grafana.nmc.bubnovd.net.crt" }
+      #        - { src: "{{ cert_key_path }}grafana.nmc.bubnovd.net.pem", dst: "/tmp/grafana.nmc.bubnovd.net.pem" }
+      #      become: true
+      #  tags:
+      #    - grafana
+      #    - certs
 
 - name: Deploy grafana
   hosts: grafana
@@ -95,12 +117,11 @@
     - blockinfile:
         path: "{{ loki_config_dir }}/config.yml"
         block: |2
-            - job_name: rsyslog
-              syslog:
+              syslog: routers
                 listen_address: 127.0.0.1:1514
                 idle_timeout: 60s
                 labels:
-                  job: rsyslog
+                  job: routers
               relabel_configs:
                 - source_labels: ['__syslog_message_hostname']
                   target_label: 'host'

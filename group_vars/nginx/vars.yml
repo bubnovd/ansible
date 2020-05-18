@@ -1,0 +1,13 @@
+nginx_vhosts:
+  - listen: "80 default_server"
+    server_name: "grafana.bubnovd.net"
+    redirect_to: "http://localhost:3000"
+    template: "group_vars/nginx/vhost.j2"
+
+certbot_create_if_missing: true 
+certbot_create_method: standalone
+certbot_admin_email: dv@bubnovd.net
+certbot_certs:
+  - email: dv@bubnovd.net
+    domains:
+      - grafana.bubnovd.net

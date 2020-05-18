@@ -1,2 +1,2 @@
-icmp_targets: 
-  - "10.255.251.1"
+icmp_targets:
+  - "grafana.bubnovd.net"
