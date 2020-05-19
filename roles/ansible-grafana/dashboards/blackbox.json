@@ -2,6 +2,7 @@
   "annotations": {
     "list": [
       {
+        "$$hashKey": "object:1169",
         "builtIn": 1,
         "datasource": "-- Grafana --",
         "enable": true,
@@ -16,8 +17,7 @@
   "editable": true,
   "gnetId": 7587,
   "graphTooltip": 0,
-  "id": 3,
-  "iteration": 1566377927936,
+  "iteration": 1589878906184,
   "links": [],
   "panels": [
     {
@@ -34,6 +34,7 @@
         "x": 0,
         "y": 0
       },
+      "hiddenSeries": false,
       "id": 138,
       "legend": {
         "avg": false,
@@ -112,6 +113,7 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -166,7 +168,6 @@
       "maxPerRow": 8,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -233,6 +234,7 @@
         "x": 4,
         "y": 9
       },
+      "hiddenSeries": false,
       "id": 25,
       "legend": {
         "avg": false,
@@ -323,6 +325,7 @@
         "x": 14,
         "y": 9
       },
+      "hiddenSeries": false,
       "id": 17,
       "legend": {
         "avg": false,
@@ -443,7 +446,6 @@
       "maxPerRow": 8,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -537,7 +539,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -619,7 +620,6 @@
       "maxPerRow": 8,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -715,7 +715,6 @@
       "maxPerRow": 8,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -810,7 +809,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -893,7 +891,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -938,7 +935,7 @@
     }
   ],
   "refresh": "10s",
-  "schemaVersion": 19,
+  "schemaVersion": 22,
   "style": "dark",
   "tags": [
     "blackbox",
@@ -951,6 +948,7 @@
         "auto_count": 10,
         "auto_min": "10s",
         "current": {
+          "selected": false,
           "text": "10s",
           "value": "10s"
         },
@@ -1037,6 +1035,7 @@
       {
         "allValue": null,
         "current": {
+          "selected": false,
           "text": "All",
           "value": "$__all"
         },
@@ -1044,6 +1043,7 @@
         "definition": "",
         "hide": 0,
         "includeAll": true,
+        "index": -1,
         "label": null,
         "multi": true,
         "name": "target",
@@ -1093,5 +1093,8 @@
   "timezone": "",
   "title": "Prometheus Blackbox Exporter",
   "uid": "xtkCtBkiz",
-  "version": 9
+  "variables": {
+    "list": []
+  },
+  "version": 1
 }

@@ -1,7 +1,7 @@
 prometheus_version: 2.17.2
 prometheus_storage_retention: "100d"
 prometheus_storage_retention_size: "20GB"
-prometheus_web_listen_address: "localhost:9090"
+prometheus_web_listen_address: "0.0.0.0:9090"
 
 prometheus_alertmanager_config:
   - scheme: http
@@ -20,12 +20,7 @@ prometheus_targets:
     - targets: "{{ icmp_targets }}"
       labels:
         env: prod
-  http:
-    - targets: 
-      - "http://bubnovd.net"
-      - "https://mikrotik-ninja.ru"
-      labels:
-        env: prod
+  http: "{{ http_targets }} "
   alertmanager:
      - targets:
        - "127.0.0.1:9093"

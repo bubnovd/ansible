@@ -2,10 +2,11 @@
 
 devices:
 {% for k in mikrotik_exporter_targets %}
-  - name: {{ k }}
-    address: {{ k }}
-    user: {{ mikrotik_exporter_username }}
-    password: {{ mikrotik_exporter_password }}
+  - name: {{ k.name }}
+    address: {{ k.address }}
+    port: {{ k.port }}
+    user: {{ k.user }}
+    password: {{ k.password }}
 {% endfor %}
 
 features:
