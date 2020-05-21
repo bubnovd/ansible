@@ -2,6 +2,7 @@
   "annotations": {
     "list": [
       {
+        "$$hashKey": "object:582",
         "builtIn": 1,
         "datasource": "-- Grafana --",
         "enable": true,
@@ -16,7 +17,6 @@
   "editable": true,
   "gnetId": 8010,
   "graphTooltip": 0,
-  "id": 17,
   "links": [],
   "panels": [
     {
@@ -62,7 +62,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -146,7 +145,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -164,7 +162,7 @@
         "lineColor": "rgb(31, 120, 193)",
         "show": false
       },
-      "tableColumn": "Message",
+      "tableColumn": "",
       "targets": [
         {
           "annotations": false,
@@ -230,7 +228,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -314,7 +311,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -369,7 +365,6 @@
       },
       "id": 4,
       "links": [],
-      "options": {},
       "pageSize": null,
       "scroll": true,
       "showHeader": true,
@@ -380,12 +375,14 @@
       "styles": [
         {
           "alias": "Time",
+          "align": "auto",
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "pattern": "Time",
           "type": "date"
         },
         {
           "alias": "",
+          "align": "auto",
           "colorMode": "row",
           "colors": [
             "rgba(50, 172, 45, 0.97)",
@@ -419,6 +416,7 @@
         },
         {
           "alias": "",
+          "align": "auto",
           "colorMode": "row",
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -461,7 +459,7 @@
     }
   ],
   "refresh": false,
-  "schemaVersion": 19,
+  "schemaVersion": 22,
   "style": "dark",
   "tags": [
     "0.0.1"
@@ -501,5 +499,8 @@
   "timezone": "",
   "title": "Prometheus AlertManager",
   "uid": "WojOgXTmk",
+  "variables": {
+    "list": []
+  },
   "version": 1
 }

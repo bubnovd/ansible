@@ -22,6 +22,8 @@ server {
     {% endblock %}
 {% if item.redirect_to is defined %}
     location / {
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
         proxy_pass {{ item.redirect_to }};
     }
 {% endif %}

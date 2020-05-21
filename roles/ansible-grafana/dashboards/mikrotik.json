@@ -16,7 +16,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "iteration": 1589869237311,
+  "iteration": 1590041653394,
   "links": [],
   "panels": [
     {
@@ -46,6 +46,12 @@
       "datasource": "Prometheus",
       "editable": true,
       "error": false,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -146,6 +152,12 @@
       ],
       "datasource": "Prometheus",
       "decimals": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "dtdurations",
       "gauge": {
         "maxValue": 100,
@@ -194,7 +206,7 @@
         "lineColor": "rgb(31, 120, 193)",
         "show": false
       },
-      "tableColumn": "",
+      "tableColumn": "mikrotik_system_uptime{address=\"665805c5d0f7.sn.mynetname.net\", boardname=\"hAP ac lite\", instance=\"127.0.0.1:9436\", job=\"mikrotik\", name=\"bubnov\", version=\"6.46.6 (testing)\"}",
       "targets": [
         {
           "application": {
@@ -246,6 +258,12 @@
       "datasource": "Prometheus",
       "editable": true,
       "error": false,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -348,6 +366,12 @@
       "datasource": "Prometheus",
       "editable": true,
       "error": false,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "percent",
       "gauge": {
         "maxValue": 100,
@@ -396,7 +420,7 @@
         "lineColor": "rgb(31, 120, 193)",
         "show": true
       },
-      "tableColumn": "",
+      "tableColumn": "mikrotik_system_cpu_load{address=\"665805c5d0f7.sn.mynetname.net\", boardname=\"hAP ac lite\", instance=\"127.0.0.1:9436\", job=\"mikrotik\", name=\"bubnov\", version=\"6.46.6 (testing)\"}",
       "targets": [
         {
           "application": {
@@ -449,6 +473,12 @@
       "decimals": 2,
       "editable": true,
       "error": false,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "decbytes",
       "gauge": {
         "maxValue": 64000000,
@@ -497,7 +527,7 @@
         "lineColor": "rgb(31, 120, 193)",
         "show": true
       },
-      "tableColumn": "",
+      "tableColumn": "{address=\"665805c5d0f7.sn.mynetname.net\", boardname=\"hAP ac lite\", instance=\"127.0.0.1:9436\", job=\"mikrotik\", name=\"bubnov\", version=\"6.46.6 (testing)\"}",
       "targets": [
         {
           "application": {
@@ -550,6 +580,12 @@
       "datasource": "Prometheus",
       "editable": true,
       "error": false,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -598,7 +634,7 @@
         "lineColor": "rgb(31, 120, 193)",
         "show": false
       },
-      "tableColumn": "",
+      "tableColumn": "6.46.6 (testing) on hAP ac lite",
       "targets": [
         {
           "application": {
@@ -662,6 +698,12 @@
       "datasource": "Prometheus",
       "editable": true,
       "error": false,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -776,6 +818,12 @@
       "datasource": "Prometheus",
       "editable": true,
       "error": false,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 5,
       "fillGradient": 0,
       "gridPos": {
@@ -923,6 +971,12 @@
       "datasource": "Prometheus",
       "editable": true,
       "error": false,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1070,6 +1124,12 @@
       "datasource": "Prometheus",
       "editable": true,
       "error": false,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 3,
       "fillGradient": 0,
       "gridPos": {
@@ -1219,6 +1279,12 @@
         }
       ],
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fontSize": "100%",
       "gridPos": {
         "h": 8,
@@ -1350,7 +1416,7 @@
       "timeShift": null,
       "title": "DHCP Leases",
       "transform": "table",
-      "type": "table"
+      "type": "table-old"
     },
     {
       "collapsed": false,
@@ -1375,6 +1441,12 @@
       "datasource": null,
       "editable": true,
       "error": false,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1497,6 +1569,12 @@
         }
       ],
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fontSize": "100%",
       "gridPos": {
         "h": 9,
@@ -1549,7 +1627,7 @@
       "timeShift": null,
       "title": "Interface status (operational)",
       "transform": "timeseries_aggregations",
-      "type": "table"
+      "type": "table-old"
     },
     {
       "columns": [
@@ -1559,6 +1637,12 @@
         }
       ],
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fontSize": "100%",
       "gridPos": {
         "h": 9,
@@ -1611,7 +1695,7 @@
       "timeShift": null,
       "title": "Interface  rate",
       "transform": "timeseries_aggregations",
-      "type": "table"
+      "type": "table-old"
     },
     {
       "collapsed": true,
@@ -3000,7 +3084,7 @@
     }
   ],
   "refresh": "10s",
-  "schemaVersion": 22,
+  "schemaVersion": 25,
   "style": "dark",
   "tags": [
     "dashboard",
@@ -3011,6 +3095,7 @@
       {
         "allValue": null,
         "current": {
+          "selected": false,
           "text": "665805c5d0f7.sn.mynetname.net",
           "value": "665805c5d0f7.sn.mynetname.net"
         },
@@ -3018,7 +3103,6 @@
         "definition": "label_values(mikrotik_system_uptime,address)",
         "hide": 0,
         "includeAll": false,
-        "index": -1,
         "label": "node",
         "multi": false,
         "name": "node",
@@ -3068,8 +3152,5 @@
   "timezone": "browser",
   "title": "Mikrotik_exp Router",
   "uid": "000000168",
-  "variables": {
-    "list": []
-  },
-  "version": 2
+  "version": 3
 }

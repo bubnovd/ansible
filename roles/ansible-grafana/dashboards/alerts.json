@@ -2,6 +2,7 @@
   "annotations": {
     "list": [
       {
+        "$$hashKey": "object:167",
         "builtIn": 1,
         "datasource": "-- Grafana --",
         "enable": true,
@@ -15,12 +16,12 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 4,
   "links": [],
   "panels": [
     {
       "dashboardFilter": "",
       "dashboardTags": [],
+      "datasource": null,
       "folderId": null,
       "gridPos": {
         "h": 8,
@@ -32,7 +33,6 @@
       "limit": 10,
       "nameFilter": "",
       "onlyAlertsOnDashboard": true,
-      "options": {},
       "show": "current",
       "sortOrder": 1,
       "stateFilter": [],
@@ -45,6 +45,7 @@
     {
       "dashboardFilter": "",
       "dashboardTags": [],
+      "datasource": null,
       "folderId": null,
       "gridPos": {
         "h": 8,
@@ -56,7 +57,6 @@
       "limit": 10,
       "nameFilter": "",
       "onlyAlertsOnDashboard": true,
-      "options": {},
       "show": "changes",
       "sortOrder": 1,
       "stateFilter": [],
@@ -84,7 +84,6 @@
       },
       "id": 4,
       "links": [],
-      "options": {},
       "pageSize": null,
       "pluginVersion": "6.3.2",
       "scroll": true,
@@ -96,6 +95,7 @@
       "styles": [
         {
           "alias": "",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -112,6 +112,7 @@
         },
         {
           "alias": "State",
+          "align": "auto",
           "colorMode": "value",
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -195,6 +196,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": null,
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -203,6 +205,7 @@
         "x": 6,
         "y": 8
       },
+      "hiddenSeries": false,
       "id": 13,
       "legend": {
         "avg": false,
@@ -333,6 +336,7 @@
         "x": 0,
         "y": 17
       },
+      "hiddenSeries": false,
       "id": 8,
       "legend": {
         "alignAsTable": false,
@@ -434,6 +438,7 @@
         "x": 12,
         "y": 21
       },
+      "hiddenSeries": false,
       "id": 6,
       "legend": {
         "avg": false,
@@ -507,7 +512,7 @@
     }
   ],
   "refresh": false,
-  "schemaVersion": 19,
+  "schemaVersion": 22,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -534,5 +539,8 @@
   "timezone": "",
   "title": "Alerts",
   "uid": "Zd334sdZk",
-  "version": 2
+  "variables": {
+    "list": []
+  },
+  "version": 1
 }
