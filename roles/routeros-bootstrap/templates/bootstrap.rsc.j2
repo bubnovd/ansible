@@ -1,0 +1,17 @@
+/log warning "Ansible is bootstraping RouterOS now..."
+
+/system identity set name={{ inventory_hostname }}
+/ip service disable {{ service_disable | join(',') }}
+/ip service set www address={{ lan_subnets | join(',')}}
+
+# graphing
+foreach rule in=[/tool graphing interface find allow-address~".*"] do={/tool graphing interface remove $rule}
+/tool graphing interface add interface=all allow-address={{ graphing_addresses | join(',') }}
+foreach rule in=[/tool graphing queue find allow-address~".*"] do={/tool graphing queue remove $rule}
+/tool graphing queue add simple-queue=all allow-address={{ graphing_addresses | join(',') }}
+foreach rule in=[/tool graphing resource find allow-address~".*"] do={/tool graphing resource remove $rule}
+/tool graphing resource add allow-address={{ graphing_addresses | join(',') }}
+
+
+
+/log warning "Ansible have ended bootstraping"

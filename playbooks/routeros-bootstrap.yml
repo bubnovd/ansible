@@ -1,0 +1,6 @@
+- name: bootstrap
+  hosts: vpn_server
+  roles: 
+    - routeros-bootstrap
+  tags:
+    - routeros

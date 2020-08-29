@@ -1,4 +1,4 @@
-prometheus_version: 2.17.2
+prometheus_version: 2.18.1
 prometheus_storage_retention: "100d"
 prometheus_storage_retention_size: "20GB"
 prometheus_web_listen_address: "0.0.0.0:9090"
@@ -81,8 +81,8 @@ prometheus_scrape_configs:
       - files:
         - "/etc/prometheus/file_sd/grafana.yml"
   - job_name: "mikrotik"
-    scrape_timeout: "60s"
-    scrape_interval: "120s"
+    scrape_timeout: "20s"
+    scrape_interval: "60s"
     metrics_path: "/metrics"
     static_configs:
       - targets:
