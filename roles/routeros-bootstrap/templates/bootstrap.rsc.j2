@@ -1,17 +1,35 @@
 /log warning "Ansible is bootstraping RouterOS now..."
 
 /system identity set name={{ inventory_hostname }}
+
+# interface lists
+:if ([/interface list find name=WAN] ="") do={/interface list add name=WAN}
+:if ([/interface list find name=LAN] ="") do={/interface list add name=LAN}
+foreach interface in=[/interface list member find interface~".*"] do={/interface list member remove $interface}
+{% for interface in interface_wan %}
+/interface list member add list=WAN interface={{ interface }} disabled=no
+{% endfor %}
+
+# neighbours, MAC server
+/ip neighbor discovery-settings set discover-interface-list=LAN
+/tool mac-server set allowed-interface-list=LAN
+/tool mac-server mac-winbox set allowed-interface-list=LAN
+
+# services
 /ip service disable {{ service_disable | join(',') }}
 /ip service set www address={{ lan_subnets | join(',')}}
 
 # graphing
 foreach rule in=[/tool graphing interface find allow-address~".*"] do={/tool graphing interface remove $rule}
-/tool graphing interface add interface=all allow-address={{ graphing_addresses | join(',') }}
 foreach rule in=[/tool graphing queue find allow-address~".*"] do={/tool graphing queue remove $rule}
-/tool graphing queue add simple-queue=all allow-address={{ graphing_addresses | join(',') }}
 foreach rule in=[/tool graphing resource find allow-address~".*"] do={/tool graphing resource remove $rule}
-/tool graphing resource add allow-address={{ graphing_addresses | join(',') }}
 
+{% for address in graphing_addresses %}
+/tool graphing interface add interface=all allow-address={{ address }}
+/tool graphing queue add simple-queue=all allow-address={{ address }}
+/tool graphing resource add allow-address={{ address }}
+{% endfor %}
 
+{% include 'firewall.rsc.j2' %}
 
 /log warning "Ansible have ended bootstraping"
