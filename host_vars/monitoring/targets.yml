@@ -1,0 +1,11 @@
+icmp_targets: 
+  - "10.255.251.1"
+  - "10.3.0.1"
+  - "10.4.0.1"
+  - "gate2.nmc.bubnovd.net"
+  - "zabbix.nmc.bubnovd.net"
+  - "gate4.nmc.bubnovd.net"
+  - "usergate1.nmc.bubnovd.net"
+  - "nrv.nmc.bubnovd.net"
+  - "log.nmc.bubnovd.net"
+  - "dns.nmc.bubnovd.net"

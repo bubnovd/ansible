@@ -1,0 +1,77 @@
+prometheus_web_external_url: "http://localhost:9090"
+http_targets: "http://bubnovd.net"
+grafana_domain: grafana.bulun.com
+cert_crt_path: "~/tmp/ssl/crt/"
+cert_key_path: "~/tmp/etc/ssl/private/"
+cert_csr_path: "~/tmp/ssl/csr/"
+
+grafana_server:
+  protocol: https
+  enforce_domain: false
+  socket: ""
+  cert_key: "/tmp/{{ grafana_domain }}.pem"
+  cert_file: "/tmp/{{ grafana_domain }}.crt"
+  enable_gzip: false
+  static_root_path: public
+  router_logging: false
+
+grafana_port: 443
+grafana_cap_net_bind_service: true
+
+grafana_security:
+  admin_user: admin
+  admin_password: "{{ vault_grafana_security_admin_password }}"
+grafana_datasources:
+  - name: "Prometheus"
+    type: "prometheus"
+    access: "proxy"
+    url: "http://localhost:9090"
+    isDefault: true
+  - name: "Prometheus Alertmanager"
+    type: "camptocamp-prometheus-alertmanager-datasource"
+    access: "proxy"
+    url: "http://localhost:9093"
+  - name: "Loki"
+    type: "loki" 
+    access: "proxy"
+    url: "http://localhost:3100"
+
+grafana_plugins:
+  - camptocamp-prometheus-alertmanager-datasource
+
+grafana_dashboards_dir: "/home/devi1/Documents/ansible/roles/ansible-grafana/dashboards"
+
+#grafana_auth:            
+#  ldap:                  
+#    config_file: "/etc/grafana/ldap.toml"
+#    allow_sign_up: true
+#
+#grafana_ldap: 
+#  servers:
+#    host: dc.bubnovd.net
+#    port: 389
+#    use_ssl: false
+#    start_tls: false
+#    ssl_skip_verify: false
+#    bind_dn: "cn=grafana service,ou=Services,ou=Users,ou=IT,dc=dc,dc=bubnovd,dc=net"
+#    bind_password: "{{ vault_grafana_bind_password }}"
+#    search_filter: "(sAMAccountName=%s)"
+#    search_base_dns:
+#      - "dc=dc,dc=bubnovd,dc=net"
+#    attributes:
+#      name: givenName
+#      surname: sn
+#      username: sAMAccountName
+#      member_of: memberOf
+#      email: mail
+#  group_mappings:
+#    - name: bubnovd.net
+#      id: 1
+#      groups:
+#        - group_dn: "cn=grafana-admin,ou=Groups,ou=IT,dc=dc,dc=bubnovd,dc=net"
+#          org_role: Admin
+#        - group_dn: "cn=grafana-editor,ou=Groups,ou=IT,dc=dc,dc=bubnovd,dc=net"
+#          org_role: Editor
+#        - group_dn: "cn=grafana-viewer,ou=Groups,ou=IT,dc=dc,dc=bubnovd,dc=net"
+#          org_role: Viewer
+#

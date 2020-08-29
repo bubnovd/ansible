@@ -17,6 +17,11 @@ mikrotik_exporter_optics_metrics: "false"
 mikrotik_exporter_wlansta_metrics: "false"
 mikrotik_exporter_wlanif_metrics: "false"
 mikrotik_exporter_monitor_metrics: "true"
+mikrotik_exporter_health_metrics: "true"
+mikrotik_exporter_firmware_metrics: "true"
+mikrotik_exporter_ipsec_metrics: "true"
+mikrotik_exporter_poe_metrics: "true"
+mikrotik_exporter_w60g_metrics: "false"
 
 mikrotik_exporter_username: exporter
 mikrotik_exporter_password: "{{ vault_mikrotik_exporter_password }}"
