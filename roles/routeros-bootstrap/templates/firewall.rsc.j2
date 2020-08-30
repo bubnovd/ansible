@@ -43,6 +43,7 @@ add chain=WAN-Input action=jump jump-target=WAN-Input-Allow
 add chain=WAN-Input action=drop
 
 add action=accept chain=WAN-Input-Allow comment=winbox dst-port=8291 protocol=tcp
+add action=drop chain=WAN-Input-Allow comment="drop ssh brute forcers" src-address-list=ssh_blacklist
 add action=add-src-to-address-list address-list=ssh_blacklist address-list-timeout=1w3d chain=WAN-Input-Allow connection-state=new dst-port=22 protocol=tcp src-address-list=ssh_stage3
 add action=add-src-to-address-list address-list=ssh_stage3 address-list-timeout=1m chain=WAN-Input-Allow connection-state=new dst-port=22 protocol=tcp src-address-list=ssh_stage2
 add action=add-src-to-address-list address-list=ssh_stage2 address-list-timeout=1m chain=WAN-Input-Allow connection-state=new dst-port=22 protocol=tcp src-address-list=ssh_stage1
