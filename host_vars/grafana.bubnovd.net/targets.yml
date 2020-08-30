@@ -1,0 +1,36 @@
+icmp_targets:
+  - targets:
+    - "665805c5d0f7.sn.mynetname.net"
+    labels:
+      env: bubnov
+  - targets:
+    - "109.248.156.110"
+    labels:
+      env: "01_"
+  - targets:
+    - "780e073b28bf.sn.mynetname.net"
+    labels:
+      env: "02_"
+  - targets:
+    - "109.248.156.87"
+    - "109.248.156.73"
+    - "185.246.160.6"
+    - "89.218.132.118"
+    - "185.246.160.7"
+    - "89.218.142.67"
+    labels:
+      env: "03_"
+
+http_targets:
+  - targets:
+    - "http://bubnovd.net"
+    - "https://mikrotik-ninja.ru"
+    - "https://grafana.nmc.bubnovd.net"
+    labels:
+      env: bubnov
+  - targets:
+    - "https://dep.kz"
+    - "https://bit.dep.kz" 
+    labels:
+      env: "01_"
+

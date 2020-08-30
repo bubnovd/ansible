@@ -1,0 +1,53 @@
+/log warning "Ansible is configuring firewall now"
+
+foreach list in=[/ip firewall address-list find list~".*"] do={/ip firewall address-list remove $list}
+/ip firewall address-list
+add address=0.0.0.0/8 list=bogons
+add address=10.0.0.0/8 list=bogons
+add address=100.64.0.0/10 list=bogons
+add address=127.0.0.0/8 list=bogons
+add address=169.254.0.0/16 list=bogons
+add address=172.16.0.0/12 list=bogons
+add address=192.0.0.0/24 list=bogons
+add address=192.0.2.0/24 list=bogons
+add address=192.168.0.0/16 list=bogons
+add address=198.18.0.0/15 list=bogons
+add address=198.51.100.0/24 list=bogons
+add address=203.0.113.0/24 list=bogons
+add address=224.0.0.0/3 list=bogons
+
+{% for address in lan_subnets %}
+add address={{ address }} list=LAN
+{% endfor %}
+
+{% for address in vpn_subnets %}
+add address={{ address }} list=VPN
+{% endfor %}
+
+{% for address in net_subnets %}
+add address={{ address }} list=NET
+{% endfor %}
+
+add address=192.168.11.1 list=ftp_open
+add address=192.168.11.1 list=snmp_allow
+
+
+/foreach rule in=[/ip firewall filter find action~".*"] do={/ip firewall filter remove $rule}
+/ip firewall filter
+add chain=input in-interface-list=WAN action=jump jump-target=WAN-Input
+add chain=WAN-Input connection-state=established action=accept comment=established
+add chain=WAN-Input connection-state=related action=accept comment=related
+add chain=WAN-Input connection-state=untracked action=accept comment=untracked
+add chain=WAN-Input connection-state=invalid action=drop comment=invalid
+add chain=WAN-Input action=jump jump-target=WAN-Input-Allow
+add chain=WAN-Input action=drop
+
+add action=accept chain=WAN-Input-Allow comment=winbox dst-port=8291 protocol=tcp
+add action=drop chain=WAN-Input-Allow comment="drop ssh brute forcers" src-address-list=ssh_blacklist
+add action=add-src-to-address-list address-list=ssh_blacklist address-list-timeout=1w3d chain=WAN-Input-Allow connection-state=new dst-port=22 protocol=tcp src-address-list=ssh_stage3
+add action=add-src-to-address-list address-list=ssh_stage3 address-list-timeout=1m chain=WAN-Input-Allow connection-state=new dst-port=22 protocol=tcp src-address-list=ssh_stage2
+add action=add-src-to-address-list address-list=ssh_stage2 address-list-timeout=1m chain=WAN-Input-Allow connection-state=new dst-port=22 protocol=tcp src-address-list=ssh_stage1
+add action=add-src-to-address-list address-list=ssh_stage1 address-list-timeout=1m chain=WAN-Input-Allow connection-state=new dst-port=22 protocol=tcp src-address-list=!ssh_open
+add action=accept chain=WAN-Input-Allow dst-port=22 protocol=tcp
+add action=accept chain=WAN-Input-Allow comment=icmp protocol=icmp
+

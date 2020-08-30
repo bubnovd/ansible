@@ -1,0 +1,5 @@
+- name: Deploy VPN client
+  hosts: vpn_client
+  roles:
+    - ansible-role-l2tp-ipsec-client
+  become: true

@@ -1,0 +1,46 @@
+mikrotik_targets:
+  - name: "bubnov"
+    address: "665805c5d0f7.sn.mynetname.net"
+    port: 8729
+    user: "monitoring"
+    password: "{{ vault_mikrotik_exporter_password }}"
+  - name: "01_Yuriy.popov@dep.kz"
+    address: "109.248.156.110"
+    port: 8729
+    user: "monitoring"
+    password: "{{ vault_mikrotik_exporter_password }}"
+  - name: "02_sys@kineu.kz"
+    address: "780e073b28bf.sn.mynetname.net"
+    port: 8729
+    user: "mon"
+    password: "{{ vault_mikrotik_exporter_password_02 }}"
+  - name: "03_gw1-mkr8"
+    address: "109.248.156.87"
+    port: 8729
+    user: "monitoring"
+    password: "{{ vault_mikrotik_exporter_password }}"
+  - name: "03_gw1-lab"
+    address: "109.248.156.73"
+    port: 8729
+    user: "monitoring"
+    password: "{{ vault_mikrotik_exporter_password }}"
+  - name: "03_gw1-kst-psh54"
+    address: "185.246.160.6"
+    port: 8729
+    user: "monitoring"
+    password: "{{ vault_mikrotik_exporter_password }}"
+  - name: "03_gw1-rdn"
+    address: "89.218.132.118"
+    port: 8729
+    user: "monitoring"
+    password: "{{ vault_mikrotik_exporter_password }}"
+  - name: "03_gw1-kst-nrm54"
+    address: "185.246.160.7"
+    port: 8729
+    user: "monitoring"
+    password: "{{ vault_mikrotik_exporter_password }}"
+  - name: "03_gw1-kst-url14"
+    address: "89.218.142.67"
+    port: 8729
+    user: "monitoring"
+    password: "{{ vault_mikrotik_exporter_password }}"

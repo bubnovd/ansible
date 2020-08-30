@@ -2,7 +2,6 @@
   "annotations": {
     "list": [
       {
-        "$$hashKey": "object:4237",
         "builtIn": 1,
         "datasource": "-- Grafana --",
         "enable": true,
@@ -16,7 +15,8 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "iteration": 1590041653394,
+  "id": 21,
+  "iteration": 1590059451635,
   "links": [],
   "panels": [
     {
@@ -206,7 +206,7 @@
         "lineColor": "rgb(31, 120, 193)",
         "show": false
       },
-      "tableColumn": "mikrotik_system_uptime{address=\"665805c5d0f7.sn.mynetname.net\", boardname=\"hAP ac lite\", instance=\"127.0.0.1:9436\", job=\"mikrotik\", name=\"bubnov\", version=\"6.46.6 (testing)\"}",
+      "tableColumn": "mikrotik_system_uptime{address=\"109.248.156.110\", boardname=\"hEX S\", instance=\"127.0.0.1:9436\", job=\"mikrotik\", name=\"01_Yuriy.popov@dep.kz\", version=\"6.46.4 (stable)\"}",
       "targets": [
         {
           "application": {
@@ -420,7 +420,7 @@
         "lineColor": "rgb(31, 120, 193)",
         "show": true
       },
-      "tableColumn": "mikrotik_system_cpu_load{address=\"665805c5d0f7.sn.mynetname.net\", boardname=\"hAP ac lite\", instance=\"127.0.0.1:9436\", job=\"mikrotik\", name=\"bubnov\", version=\"6.46.6 (testing)\"}",
+      "tableColumn": "mikrotik_system_cpu_load{address=\"109.248.156.110\", boardname=\"hEX S\", instance=\"127.0.0.1:9436\", job=\"mikrotik\", name=\"01_Yuriy.popov@dep.kz\", version=\"6.46.4 (stable)\"}",
       "targets": [
         {
           "application": {
@@ -527,7 +527,7 @@
         "lineColor": "rgb(31, 120, 193)",
         "show": true
       },
-      "tableColumn": "{address=\"665805c5d0f7.sn.mynetname.net\", boardname=\"hAP ac lite\", instance=\"127.0.0.1:9436\", job=\"mikrotik\", name=\"bubnov\", version=\"6.46.6 (testing)\"}",
+      "tableColumn": "{address=\"109.248.156.110\", boardname=\"hEX S\", instance=\"127.0.0.1:9436\", job=\"mikrotik\", name=\"01_Yuriy.popov@dep.kz\", version=\"6.46.4 (stable)\"}",
       "targets": [
         {
           "application": {
@@ -634,7 +634,7 @@
         "lineColor": "rgb(31, 120, 193)",
         "show": false
       },
-      "tableColumn": "6.46.6 (testing) on hAP ac lite",
+      "tableColumn": "6.46.4 (stable) on hEX S",
       "targets": [
         {
           "application": {
@@ -1010,7 +1010,6 @@
       "renderer": "flot",
       "seriesOverrides": [
         {
-          "$$hashKey": "object:4382",
           "alias": "ICMP loss",
           "lines": true,
           "points": false,
@@ -1075,7 +1074,6 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:4399",
           "format": "s",
           "label": "ICMP response time",
           "logBase": 1,
@@ -1084,7 +1082,6 @@
           "show": true
         },
         {
-          "$$hashKey": "object:4400",
           "format": "percent",
           "label": "ICMP loss",
           "logBase": 1,
@@ -1182,7 +1179,7 @@
           "application": {
             "filter": "Network"
           },
-          "expr": "rate(mikrotik_interface_rx_byte{address=\"$node\"}[4m])",
+          "expr": "rate(mikrotik_interface_rx_byte{address=\"$node\"}[1m])",
           "format": "time_series",
           "functions": [],
           "group": {
@@ -1192,6 +1189,7 @@
           "host": {
             "filter": "MikroTik Router"
           },
+          "interval": "",
           "intervalFactor": 1,
           "item": {
             "filter": "Incoming traffic on interface ether1-gateway"
@@ -1207,7 +1205,7 @@
           "application": {
             "filter": "Network"
           },
-          "expr": "rate(mikrotik_interface_tx_byte{address=\"$node\"}[4m])",
+          "expr": "rate(mikrotik_interface_tx_byte{address=\"$node\"}[1m])",
           "format": "time_series",
           "functions": [],
           "group": {
@@ -1217,6 +1215,7 @@
           "host": {
             "filter": "MikroTik Router"
           },
+          "interval": "",
           "intervalFactor": 1,
           "item": {
             "filter": "Outgoing traffic on interface ether1-gateway"
@@ -3096,8 +3095,8 @@
         "allValue": null,
         "current": {
           "selected": false,
-          "text": "665805c5d0f7.sn.mynetname.net",
-          "value": "665805c5d0f7.sn.mynetname.net"
+          "text": "109.248.156.110",
+          "value": "109.248.156.110"
         },
         "datasource": "Prometheus",
         "definition": "label_values(mikrotik_system_uptime,address)",
@@ -3111,7 +3110,7 @@
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
-        "sort": 1,
+        "sort": 0,
         "tagValuesQuery": "",
         "tags": [],
         "tagsQuery": "",
@@ -3126,7 +3125,6 @@
   },
   "timepicker": {
     "refresh_intervals": [
-      "5s",
       "10s",
       "30s",
       "1m",
@@ -3150,7 +3148,7 @@
     ]
   },
   "timezone": "browser",
-  "title": "Mikrotik_exp Router",
-  "uid": "000000168",
-  "version": 3
+  "title": "Mikrotik_exp",
+  "uid": "FfUWI3RMk",
+  "version": 2
 }

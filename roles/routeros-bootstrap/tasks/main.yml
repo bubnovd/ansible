@@ -1,0 +1,30 @@
+- name: generate rsc
+  template:
+    src: bootstrap.rsc.j2
+    dest: /tmp/{{ inventory_hostname }}.rsc
+
+- name: copy rsc to router
+  command: scp -P {{ ansible_ssh_port }} /tmp/{{ inventory_hostname }}.rsc {{ansible_ssh_user}}@{{ansible_host}}:bootstrap.rsc
+
+- name: run rsc
+  #command: ssh -T -p {{ ansible_ssh_port }} {{ansible_ssh_user}}@{{ansible_host}} '/import file=bootstrap.rsc'
+  routeros_command:
+    commands: "/import file=bootstrap.rsc"
+  register: system_print
+
+
+- name: debug print
+  debug:
+    var: system_print.stdout_lines
+
+- name: message
+  debug:
+    msg: It might be error in {{ system_print.stdout_lines }}. Try again or resolve the error
+  when: "'Script file loaded and executed successfully' != system_print.stdout_lines[0][0]"
+  #when: "'invalid' in system_print.stdout_lines[0][0]"
+  #    when: system_print.stdout_lines contains 'expected end of command'
+
+#- name: clean
+#  file:
+#    path: /tmp/{{ inventory_hostname }}.rsc
+#    state: absent

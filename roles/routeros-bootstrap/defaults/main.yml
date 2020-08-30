@@ -1,0 +1,21 @@
+lan_subnets:
+  - 10.0.0.0/8
+  - 172.16.0.0/12
+  - 192.168.0.0/16
+
+vpn_subnets:
+  - 10.0.0.0/8
+
+net_subnets: "{{ vpn_subnets }}"
+
+interface_wan:
+  - ether1
+
+graphing_addresses: "{{ lan_subnets }}"
+
+service_disable:
+  - ftp
+  - telnet
+  - api
+  - api-ssl
+  - www-ssl

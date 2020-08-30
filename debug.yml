@@ -1,0 +1,40 @@
+#- name: debug
+#  hosts: vpn_server
+#  tasks:
+#  - debug:
+#      msg: System {{ inventory_hostname }} has uuid {{ ansible_product_uuid }}
+#
+#
+#  - name: system command
+#    routeros_facts:
+#      gather_subset: all
+#    register: system_print
+#  - name: debug print
+#    debug: var=system_print.ansible_facts.ansible_net_all_ipv4_addresses[0] 
+#     
+#- name: set name
+#  routeros_command:
+#    commands: /system identity set name={{ inventory_hostname }}
+#  tags:
+#    - identity
+#
+#- name: disable unnecessary services
+#  routeros_command:
+#    commands: "/ip service disable {{ item }}"
+#  loop:
+#    - ftp
+#    - telnet
+#    - api
+#    - api-ssl
+#    - www-ssl
+#  tags:
+#    - service_disable
+#
+#- name: set allowed addresses for services
+#  command: ssh -T {{ansible_ssh_user}}@{{ansible_host}} "/ip service set www address={{ lan_subnets | join(',')}}"
+#  tags:
+#    - service_address
+- name: debug
+  hosts: vpn_server
+  tasks:
+  - command:  "ssh -T {{ansible_ssh_user}}@{{ansible_host}} '/ip address print'"
