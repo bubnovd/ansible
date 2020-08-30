@@ -20,17 +20,17 @@ add address=224.0.0.0/3 list=bogons
 add address={{ address }} list=LAN
 {% endfor %}
 
-{% for address in vpn_subnets %}
-add address={{ address }} list=VPN
+{% for address in ftp_addresses %}
+add address={{ address }} list=ftp_open
+{% endfor %}
+
+{% for address in snmp_addresses %}
+add address={{ address }} list=snmp_allow
 {% endfor %}
 
 {% for address in net_subnets %}
 add address={{ address }} list=NET
 {% endfor %}
-
-add address=192.168.11.1 list=ftp_open
-add address=192.168.11.1 list=snmp_allow
-
 
 /foreach rule in=[/ip firewall filter find action~".*"] do={/ip firewall filter remove $rule}
 /ip firewall filter
@@ -51,3 +51,5 @@ add action=add-src-to-address-list address-list=ssh_stage1 address-list-timeout=
 add action=accept chain=WAN-Input-Allow dst-port=22 protocol=tcp
 add action=accept chain=WAN-Input-Allow comment=icmp protocol=icmp
 
+/foreach rule in=[/ip firewall nat find action~".*"] do={/ip firewall nat remove $rule}
+/ip firewall nat add chain=srcnat out-interface-list=WAN action=masquerade

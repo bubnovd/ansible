@@ -1,0 +1,16 @@
+- name: generate rsc
+  template:
+    src: vpn-client.rsc.j2
+    dest: /tmp/{{ inventory_hostname }}-vpn-client.rsc
+
+- name: copy rsc to router
+  command: scp -P {{ ansible_ssh_port }} /tmp/{{ inventory_hostname }}-vpn-client.rsc {{ansible_ssh_user}}@{{ansible_host}}:vpn-client.rsc
+
+- name: run rsc
+  routeros_command:
+    commands: "/import file=vpn-client.rsc"
+  register: system_print
+
+- name: debug print
+  debug:
+    var: system_print.stdout_lines

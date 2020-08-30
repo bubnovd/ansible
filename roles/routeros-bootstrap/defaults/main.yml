@@ -3,10 +3,7 @@ lan_subnets:
   - 172.16.0.0/12
   - 192.168.0.0/16
 
-vpn_subnets:
-  - 10.0.0.0/8
-
-net_subnets: "{{ vpn_subnets }}"
+net_subnets: "{{ lan_subnets }}"
 
 interface_wan:
   - ether1
@@ -19,3 +16,6 @@ service_disable:
   - api
   - api-ssl
   - www-ssl
+
+ftp_addresses: "{{ lan_subnets }}"
+snmp_addresses: "{{ lan_subnets }}"

@@ -4,3 +4,12 @@
     - routeros-bootstrap
   tags:
     - routeros
+    - bootstrap
+
+- name: l2tp-server
+  hosts: vpn_server
+  roles: 
+    - routeros-l2tp-server
+  tags:
+    - routeros
+    - l2tp-server

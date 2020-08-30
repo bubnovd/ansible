@@ -1,0 +1,4 @@
+- name: Deploy VPN client
+  hosts: vpn_client
+  roles:
+    - routeros-vpn-client

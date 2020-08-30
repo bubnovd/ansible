@@ -1,0 +1,12 @@
+/log warning "Configuring L2TP clients"
+
+{% for client in vpn_clients.values() | list %}
+/ppp secret
+:if ([/ppp secret find name={{ client.name }}]) do={ /ppp secret set {{ client.name }} password={{ client.password }} remote-address={{ client.address }} profile={{ profile }} disabled=no; put "Edited client.name {{ client.name }}"} else={/ppp secret add name={{ client.name }} password={{ client.password }} remote-address={{ client.address }} profile={{ profile }} disabled=no; put "Created client.name {{ client.name }}"} 
+
+/interface l2tp-server
+:if ([/interface l2tp-server find name=l2tp-{{ client.name }}]) do={/interface l2tp-server set l2tp-{{ client.name }} user={{ client.name }}} else={/interface l2tp-server add name=l2tp-{{ client.name }} user={{ client.name }}}
+
+/routing ospf interface
+:if ([/routing ospf interface find interface=l2tp-{{ client.name }}]) do={/routing ospf interface set [find interface=l2tp-{{ client.name }}] cost={{ client.ospf_cost }}} else={/routing ospf interface add interface=l2tp-{{ client.name }} cost={{ client.ospf_cost }}}
+{% endfor %}

@@ -34,7 +34,23 @@
 #  command: ssh -T {{ansible_ssh_user}}@{{ansible_host}} "/ip service set www address={{ lan_subnets | join(',')}}"
 #  tags:
 #    - service_address
+#- name: debug
+#  hosts: vpn_server
+#  tasks:
+#  - command:  "ssh -T {{ansible_ssh_user}}@{{ansible_host}} '/ip address print'"
+#- name: VPN
+#  hosts: vpn_server
+#  roles:
+#    - routeros-l2tp-server
+
 - name: debug
   hosts: vpn_server
   tasks:
-  - command:  "ssh -T {{ansible_ssh_user}}@{{ansible_host}} '/ip address print'"
+  - debug:
+      msg: "{{ groups['vpn_server'] | map('extract', hostvars, ['vpn_clients'].values())    }}"
+      #msg: "{{ groups['vpn_server'] | map('extract', hostvars, ['vpn_clients']) | join(',') }}"
+      #msg: "{{ ['name'] | map('extract', groups['vpn_server'] | map('extract', hostvars, ['vpn_clients'])) | join(',') }}"
+      #msg: "{{ groups['vpn_server'] | map('extract', hostvars, ['vpn_clients']) | join(',') }}"
+
+      #msg: "{{ ['name','password'] | map('extract', {'address': '10.254.0.1', 'name': 'bubnov', 'ospf_cost': 10, 'password': 'QWERTY'}) | list }}"
+    #  msg: "{{ groups['vpn_server'] | map('extract', hostvars, ['vpn_clients']) | join(',') }}"

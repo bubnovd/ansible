@@ -2,10 +2,26 @@
 
 /system identity set name={{ inventory_hostname }}
 
-# interface lists
-:if ([/interface list find name=WAN] ="") do={/interface list add name=WAN}
-:if ([/interface list find name=LAN] ="") do={/interface list add name=LAN}
-foreach interface in=[/interface list member find interface~".*"] do={/interface list member remove $interface}
+/interface list
+:if ([/interface list find name=WAN] ="") do={
+    /interface list add name=WAN;
+    :put "Interface List WAN added"} else={
+    :put "Interface List WAN already exists"
+}
+
+:if ([/interface list find name=LAN] ="") do={
+    /interface list add name=LAN;
+    :put "Interface List LAN added"} else={
+    :put "Interface List LAN already exists"
+}
+
+foreach interface in=[/interface list member find list="WAN"] do={
+    :local rmIface do={put "Removed  $[/interface list member print terse where .id=$id]";
+        /interface list member remove $id;}
+    $rmIface id=$interface
+}
+
+
 {% for interface in interface_wan %}
 /interface list member add list=WAN interface={{ interface }} disabled=no
 {% endfor %}
