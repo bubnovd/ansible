@@ -34,7 +34,7 @@ add address={{ address }} list=NET
 
 /foreach rule in=[/ip firewall filter find action~".*"] do={/ip firewall filter remove $rule}
 /ip firewall filter
-add chain=input in-interface-list=WAN action=jump jump-target=WAN-Input
+add chain=input in-interface-list=WAN action=jump jump-target=WAN-Input comment=---------------------------------------------WAN-Input---------------------------------------------
 add chain=WAN-Input connection-state=established action=accept comment=established
 add chain=WAN-Input connection-state=related action=accept comment=related
 add chain=WAN-Input connection-state=untracked action=accept comment=untracked
@@ -50,6 +50,22 @@ add action=add-src-to-address-list address-list=ssh_stage2 address-list-timeout=
 add action=add-src-to-address-list address-list=ssh_stage1 address-list-timeout=1m chain=WAN-Input-Allow connection-state=new dst-port=22 protocol=tcp src-address-list=!ssh_open
 add action=accept chain=WAN-Input-Allow dst-port=22 protocol=tcp
 add action=accept chain=WAN-Input-Allow comment=icmp protocol=icmp
+add chain=forward in-interface-list=WAN action=jump jump-target=WAN-Forward comment=---------------------------------------------Forward-in-WAN---------------------------------------------
+add chain=WAN-Forward connection-state=established action=accept comment=established
+add chain=WAN-Forward connection-state=related action=accept comment=related
+add chain=WAN-Forward connection-state=untracked action=accept comment=untracked
+add chain=WAN-Forward connection-state=invalid action=drop comment=invalid
+add chain=WAN-Forward action=jump jump-target=WAN-Forward-Allow
+add action=drop chain=WAN-Forward connection-nat-state=!dstnat connection-state=new in-interface-list=WAN
+add chain=WAN-Forward action=accept
+
+add chain=forward out-interface-list=WAN action=jump jump-target=Forward-WAN comment=---------------------------------------------Forward-out-WAN---------------------------------------------
+add chain=Forward-WAN connection-state=established action=accept comment=established
+add chain=Forward-WAN connection-state=related action=accept comment=related
+add chain=Forward-WAN connection-state=untracked action=accept comment=untracked
+add chain=Forward-WAN connection-state=invalid action=drop comment=invalid
+add chain=Forward-WAN action=jump jump-target=Forward-WAN-Allow
+add chain=Forward-WAN action=accept
 
 /foreach rule in=[/ip firewall nat find action~".*"] do={/ip firewall nat remove $rule}
 /ip firewall nat add chain=srcnat out-interface-list=WAN action=masquerade

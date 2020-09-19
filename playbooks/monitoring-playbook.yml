@@ -102,6 +102,7 @@
   tags:
     - grafana
     - monitoring
+    - grafana_deploy
 
 - name: Deploy Loki
   hosts: loki

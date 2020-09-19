@@ -4,6 +4,7 @@ cert_crt_path: "~/tmp/ssl/crt/"
 cert_key_path: "~/tmp/etc/ssl/private/"
 cert_csr_path: "~/tmp/ssl/csr/"
 
+grafana_version: 7.1.5
 grafana_server:
   protocol: https
   enforce_domain: false
