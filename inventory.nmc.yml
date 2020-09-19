@@ -6,4 +6,4 @@ RB03 ansible_host=87.248.19.233 ansible_network_os=routeros ansible_connection=n
 RB04 ansible_host=217.61.57.32 ansible_network_os=routeros ansible_connection=network_cli ansible_ssh_port=62204
 RB05 ansible_host=217.61.57.32 ansible_network_os=routeros ansible_connection=network_cli ansible_ssh_port=62205
 RB06 ansible_host=217.61.57.32 ansible_network_os=routeros ansible_connection=network_cli ansible_ssh_port=62206
-
+d
