@@ -15,8 +15,8 @@
     :put "Interface List LAN already exists"
 }
 
-foreach interface in=[/interface list member find list="WAN"] do={
-    :local rmIface do={put "Removed  $[/interface list member print terse where .id=$id]";
+:foreach interface in=[/interface list member find list="WAN"] do={
+    :local rmIface do={put "Removed $[/interface list member print terse where .id=$id]";
         /interface list member remove $id;}
     $rmIface id=$interface
 }
@@ -36,9 +36,9 @@ foreach interface in=[/interface list member find list="WAN"] do={
 /ip service set www address={{ lan_subnets | join(',')}}
 
 # graphing
-foreach rule in=[/tool graphing interface find allow-address~".*"] do={/tool graphing interface remove $rule}
-foreach rule in=[/tool graphing queue find allow-address~".*"] do={/tool graphing queue remove $rule}
-foreach rule in=[/tool graphing resource find allow-address~".*"] do={/tool graphing resource remove $rule}
+:foreach rule in=[/tool graphing interface find allow-address~".*"] do={/tool graphing interface remove $rule}
+:foreach rule in=[/tool graphing queue find allow-address~".*"] do={/tool graphing queue remove $rule}
+:foreach rule in=[/tool graphing resource find allow-address~".*"] do={/tool graphing resource remove $rule}
 
 {% for address in graphing_addresses %}
 /tool graphing interface add interface=all allow-address={{ address }}
@@ -47,5 +47,7 @@ foreach rule in=[/tool graphing resource find allow-address~".*"] do={/tool grap
 {% endfor %}
 
 {% include 'firewall.rsc.j2' %}
+
+{% include 'backup.rsc.j2' %}
 
 /log warning "Ansible have ended bootstraping"

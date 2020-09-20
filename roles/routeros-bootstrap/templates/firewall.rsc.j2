@@ -1,6 +1,6 @@
 /log warning "Ansible is configuring firewall now"
 
-foreach list in=[/ip firewall address-list find list~".*"] do={/ip firewall address-list remove $list}
+:foreach list in=[/ip firewall address-list find list~".*"] do={/ip firewall address-list remove $list}
 /ip firewall address-list
 add address=0.0.0.0/8 list=bogons
 add address=10.0.0.0/8 list=bogons
@@ -32,7 +32,7 @@ add address={{ address }} list=snmp_allow
 add address={{ address }} list=NET
 {% endfor %}
 
-/foreach rule in=[/ip firewall filter find action~".*"] do={/ip firewall filter remove $rule}
+:foreach rule in=[/ip firewall filter find action~".*"] do={/ip firewall filter remove $rule}
 /ip firewall filter
 add chain=input in-interface-list=WAN action=jump jump-target=WAN-Input
 add chain=WAN-Input connection-state=established action=accept comment=established
@@ -51,5 +51,5 @@ add action=add-src-to-address-list address-list=ssh_stage1 address-list-timeout=
 add action=accept chain=WAN-Input-Allow dst-port=22 protocol=tcp
 add action=accept chain=WAN-Input-Allow comment=icmp protocol=icmp
 
-/foreach rule in=[/ip firewall nat find action~".*"] do={/ip firewall nat remove $rule}
+:foreach rule in=[/ip firewall nat find action~".*"] do={/ip firewall nat remove $rule}
 /ip firewall nat add chain=srcnat out-interface-list=WAN action=masquerade

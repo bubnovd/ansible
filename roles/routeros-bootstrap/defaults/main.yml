@@ -19,3 +19,9 @@ service_disable:
 
 ftp_addresses: "{{ lan_subnets }}"
 snmp_addresses: "{{ lan_subnets }}"
+
+bkp_mail_send_address: sender@bubnovd.net
+bkp_mail_send_pwd:  "MeGapa$$w0rD"
+bkp_mail_receive_address: receiver@bubnovd.net
+bkp_encryption: "{{ vault_bkp_encryption }}"
+bkp_time: "02:01:00"
