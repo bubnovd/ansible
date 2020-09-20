@@ -1,0 +1,6 @@
+profile: OVPN-Server
+vpn_subnet: 10.254.0.0/24
+global_ospf_cost: 10
+
+ipsec_key: "{{ vault_ipsec_key }}"
+vpn_clients: "{{ vault_vpn_clients }}"
