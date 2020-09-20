@@ -13,13 +13,14 @@
     :put "PPP Profile Added"} else={
     :put "PPP Profile already exists"
 }
+
+
 ### NEED to add certificates
 /interface ovpn-server server set enabled=yes default-profile={{ profile }} mode=ip require-client-certificate=yes auth=sha1,md5 cipher=aes256 certificate={{ profile }}
+
 ### Need to configure
 
-/ip firewall filter add action=accept chain=WAN-Input-Allow dst-port=1701 protocol=udp comment=L2TP
-/ip firewall filter add action=accept chain=WAN-Input-Allow dst-port=500 protocol=udp comment=IPSec
-/ip firewall filter add action=accept chain=WAN-Input-Allow dst-port=4500 protocol=udp comment=IPSec
+/ip firewall filter add action=accept chain=WAN-Input-Allow comment=OVPN dst-port=1194 protocol=tcp
 
 # OSPF
 /routing ospf instance set 0 router-id={{ vpn_subnet | ipaddr('network') }}

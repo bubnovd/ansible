@@ -1,0 +1,4 @@
+- name: Deploy CA
+  hosts: all
+  roles:
+    - routeros-certificates

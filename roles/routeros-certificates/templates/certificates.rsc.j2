@@ -1,0 +1,19 @@
+/certificate
+:if ([/certificate find name={{ ros_cert_CA_name }} ] ="") do={
+    /certificate add name={{ ros_cert_CA_name }}  common-name={{ ros_cert_CA_name }} \
+        days={{ ros_cert_CA_days_valid }} key-size={{ ros_cert_CA_key_size }} key-usage=crl-sign,key-cert-sign;
+    :put "Certificate {{ ros_cert_CA_name }} Added";
+    /certificate sign {{ ros_cert_CA_name }} ca-crl-host=127.0.0.1 name={{ ros_cert_CA_name }};
+    :put "Certificate {{ ros_cert_CA_name }} signed"} else={
+    :put "Certificate {{ ros_cert_CA_name }} already exists"
+}
+
+:if ([/certificate find name={{ ros_cert_name }} ] ="") do={
+    /certificate add name={{ ros_cert_name }} common-name={{ ros_cert_name }} key-size={{ ros_cert_key_size }} \
+    days-valid={{ ros_cert_days_valid }} key-usage={{ ros_cert_key_usage }};
+    :put "Certificate {{ ros_cert_name }} Added";
+    /certificate sign {{ ros_cert_name }} ca={{ ros_cert_CA_name }}  name="{{ ros_cert_name }};
+    :put "Certificate {{ ros_cert_name }} signed"} else={
+    :put "Certificate {{ ros_cert_name }} already exists"
+}
+
