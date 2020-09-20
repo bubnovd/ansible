@@ -1,0 +1,14 @@
+- name: Deploy CA
+  hosts: user_vpn_server
+  vars:
+    ros_cert_name: OVPN_Server
+    ros_cert_days_valid: 3650
+    ros_cert_key_size: 4096
+    ros_cert_key_usage: "digital-signature,key-encipherment,tls-server"
+  tasks:
+    - debug:
+        msg: "ros_cert_name = {{ ros_cert_name }}"
+  roles:
+    - routeros-certificates
+
+
