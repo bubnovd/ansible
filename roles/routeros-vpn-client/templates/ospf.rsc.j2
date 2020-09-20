@@ -1,0 +1,64 @@
+/log warning "Configuring OSPF"
+
+/routing ospf area
+:if ([/routing ospf area find name=local] ="") do={
+    /routing ospf area add name=local instance=default type=default area-id={{ lan_subnet | ipaddr('network') }} disabled=no;
+    :put "OSPF area local added"} else={
+    :put "OSPF area local already exists"
+}
+
+/routing ospf network
+:foreach network in=[/routing ospf network find] do={
+    :local rmNetwork do={:put "Removed  $[/routing ospf network print terse where .id=$id]";
+        /routing ospf network remove $id;}
+    $rmNetwork id=$network
+}
+
+:if ([/routing ospf network find network={{ lan_subnet }}] ="") do={
+    /routing ospf network add area=local network={{ lan_subnet }} disabled=no;
+    :put "OSPF Network {{ lan_subnet }} added"} else={
+    :put "OSPF Network {{ lan_subnet }} already exists"
+}
+
+:if ([/routing ospf area range find range={{ lan_subnet }}] ="") do={
+    /routing ospf area range add area=local range={{ lan_subnet }} advertise=yes disabled=no;
+    :put "OSPF Area range {{ lan_subnet }} added"} else={
+    :put "OSPF Area range {{ lan_subnet }} already exists"
+}
+
+{% for server in groups['vpn_server'] %}
+:if ([/routing ospf network find network={{ hostvars[server]['vpn_subnet'] }}] ="") do={
+    /routing ospf network add area=backbone network={{ hostvars[server]['vpn_subnet'] }} comment={{ server }} disabled=no
+    :put "OSPF Network {{ hostvars[server]['vpn_subnet'] }} added"} else={
+    :put "OSPF Network {{ hostvars[server]['vpn_subnet'] }} already exists"
+}
+
+:if ([/routing ospf interface find interface={{ server }} dynamic=no] ="") do={
+    /routing ospf interface add interface={{ server }} cost={{ hostvars[server]['vpn_clients'][inventory_hostname]['ospf_cost'] }} network-type=point-to-point
+    :put "OSPF Interface {{ server }} added"} else={
+    :put "OSPF Interface {{ server }} already exists"
+}
+{% endfor %}
+
+/routing filter
+:foreach rule in=[/routing filter find] do={
+    :local rmRule do={:put "Removed  $[/routing filter print terse where .id=$id]";
+        /routing filter remove $id;}
+    $rmRule id=$rule
+}
+:if ([/routing filter find chain=ospf-out prefix={{ lan_subnet }} prefix-length=0-32] ="") do={
+    /routing filter add chain=ospf-out prefix={{ lan_subnet }} prefix-length=0-32 action=accept disabled=no;
+    :put "Routing Filter {{ lan_subnet }} added"} else={
+    :put "Routing Filter {{ lan_subnet }} already exists"
+}
+:if ([/routing filter find chain=ospf-out prefix=0.0.0.0/0 prefix-length=0-32] ="") do={
+    /routing filter add chain=ospf-out prefix=0.0.0.0/0 prefix-length=0-32 action=discard disabled=no;
+    :put "Routing Filter 0.0.0.0/0 added"} else={
+    :put "Routing Filter 0.0.0.0/0 already exists"
+}
+
+:put "THIS IS TEMPORARY OSPF SETTINGS WHILE MIGRATING"
+/routing ospf network add network=10.255.0.0/16 area=backbone
+:put "/routing ospf network add network=10.255.0.0/16 area=backbone"
+
+/log warning "Configuring OSPF done"

@@ -1,6 +1,6 @@
 /log warning "Ansible is configuring firewall now"
 
-foreach list in=[/ip firewall address-list find list~".*"] do={/ip firewall address-list remove $list}
+:foreach list in=[/ip firewall address-list find list~".*"] do={/ip firewall address-list remove $list}
 /ip firewall address-list
 add address=0.0.0.0/8 list=bogons
 add address=10.0.0.0/8 list=bogons
@@ -20,19 +20,19 @@ add address=224.0.0.0/3 list=bogons
 add address={{ address }} list=LAN
 {% endfor %}
 
-{% for address in vpn_subnets %}
-add address={{ address }} list=VPN
+{% for address in ftp_addresses %}
+add address={{ address }} list=ftp_open
+{% endfor %}
+
+{% for address in snmp_addresses %}
+add address={{ address }} list=snmp_allow
 {% endfor %}
 
 {% for address in net_subnets %}
 add address={{ address }} list=NET
 {% endfor %}
 
-add address=192.168.11.1 list=ftp_open
-add address=192.168.11.1 list=snmp_allow
-
-
-/foreach rule in=[/ip firewall filter find action~".*"] do={/ip firewall filter remove $rule}
+:foreach rule in=[/ip firewall filter find action~".*"] do={/ip firewall filter remove $rule}
 /ip firewall filter
 add chain=input in-interface-list=WAN action=jump jump-target=WAN-Input comment=---------------------------------------------WAN-Input---------------------------------------------
 add chain=WAN-Input connection-state=established action=accept comment=established
@@ -67,3 +67,6 @@ add chain=Forward-WAN connection-state=untracked action=accept comment=untracked
 add chain=Forward-WAN connection-state=invalid action=drop comment=invalid
 add chain=Forward-WAN action=jump jump-target=Forward-WAN-Allow
 add chain=Forward-WAN action=accept
+
+:foreach rule in=[/ip firewall nat find action~".*"] do={/ip firewall nat remove $rule}
+/ip firewall nat add chain=srcnat out-interface-list=WAN action=masquerade

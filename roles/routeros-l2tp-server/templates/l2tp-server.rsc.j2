@@ -1,0 +1,22 @@
+/log warning "Ansible is configuring L2TP Server now..."
+
+:if ([/interface list find name={{ profile }}] ="") do={
+    /interface list add name={{ profile }};
+    put "Interface List Added"} else={
+    put PROST
+}
+
+:if ([/ppp profile find name={{ profile }}] !="") do={/ppp profile remove {{ profile }}}
+/ppp profile add name={{ profile }} local-address={{ vpn_subnet | ipaddr('net') | ipaddr('-1') | ipaddr('address') }} address-list={{ profile }} interface-list={{ profile }} use-encryption=required
+
+/interface l2tp-server server set enabled=yes authentication=mschap2 default-profile={{ profile }} use-ipsec=yes ipsec-secret={{ ipsec_key }} one-session-per-host=yes
+
+/ip firewall filter add action=accept chain=WAN-Input-Allow dst-port=1701 protocol=udp comment=L2TP
+/ip firewall filter add action=accept chain=WAN-Input-Allow dst-port=500 protocol=udp comment=IPSec
+/ip firewall filter add action=accept chain=WAN-Input-Allow dst-port=4500 protocol=udp comment=IPSec
+
+# OSPF
+/routing ospf instance set 0 router-id={{ vpn_subnet | ipaddr('network') }}
+
+/routing ospf network
+:if [/routing ospf network find network={{ vpn_subnet }}] do={/routing ospf network set [find network={{ vpn_subnet }}] area=backbone} else={/routing ospf network add area=backbone network={{ vpn_subnet }}}

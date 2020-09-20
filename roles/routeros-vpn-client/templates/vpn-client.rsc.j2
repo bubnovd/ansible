@@ -1,0 +1,33 @@
+/log warning "Configuring VPN client"
+
+/interface list
+:if ([/interface list find name={{ profile }}] ="") do={
+    /interface list add name={{ profile }};
+    :put "Interface List Added"} else={
+    :put "Interface List already exists"
+}
+
+:if ([/interface list find name=VPN] ="") do={
+    /interface list add name=VPN;
+    /interface list set VPN include={{ profile }}
+    :put "Interface List VPN Added"} else={
+    :put "Interface List VPN already exists"
+}
+
+/ppp profile
+:if ([/ppp profile find name={{ profile }}] !="") do={
+    /ppp profile remove {{ profile }}}
+/ppp profile add name={{ profile }} address-list={{ profile }} interface-list={{ profile }} use-encryption=required
+
+/interface
+{% for server in groups['vpn_server'] %}
+:if ([/interface l2tp-client find name={{ server }}] ="") do={
+    /interface l2tp-client add name={{ server }} connect-to={{ hostvars[server].ansible_host }} profile={{ profile }} \
+        user={{ inventory_hostname }} use-ipsec=yes ipsec-secret={{ hostvars[server]['ipsec_key'] }} \
+        password={{ hostvars[server]['vpn_clients'][inventory_hostname]['password'] }} disabled=no;
+    :put "Interface {{ server }} added"} else={
+    :put "Interface {{ server }} already exists"
+}
+{% endfor %}
+
+{% include 'ospf.rsc.j2' %}
