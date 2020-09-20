@@ -10,6 +10,8 @@
 
 - name: copy rsc to router
   command: scp -P {{ ansible_ssh_port }} /tmp/{{ inventory_hostname }}-certificates.rsc {{ansible_ssh_user}}@{{ansible_host}}:certificates.rsc
+  tags:
+    - nonCA
 
 - name: run rsc
   routeros_command:
@@ -19,6 +21,8 @@
   vars:
     ansible_command_timeout: 180
   register: system_print
+  tags:
+    - nonCA
 
 - name: debug print
   debug:
