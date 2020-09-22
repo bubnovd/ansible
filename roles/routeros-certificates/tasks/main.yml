@@ -1,48 +1,15 @@
-- name: generate CA rsc
-  template:
-    src: CA.rsc.j2
-    dest: /tmp/{{ inventory_hostname }}-CA.rsc
-  tags:
-    - CA
-
-- name: copy rsc to router
-  command: scp -P {{ ansible_ssh_port }} /tmp/{{ inventory_hostname }}-CA.rsc {{ansible_ssh_user}}@{{ansible_host}}:CA.rsc
-  tags:
-    - CA
-
-- name: run rsc
-  routeros_command:
-    commands:
-      - "/import file=CA.rsc"
-      - "/file remove CA.rsc"
-  register: system_print
-  tags:
-    - CA
-
-- name: debug print
-  debug:
-    var: system_print.stdout_lines
-  tags:
-    - CA
-
-- name: clean
+- name: Create rsc
   file:
-    path: /tmp/{{ inventory_hostname }}-CA.rsc
-    state: absent
-  tags:
-    - CA
+    path: /tmp/{{ inventory_hostname }}-certificates.rsc
+    state: touch
 
-- name: generate rsc
-  template:
-    src: certificates.rsc.j2
+- name: Generate rsc
+  blockinfile:
     dest: /tmp/{{ inventory_hostname }}-certificates.rsc
-  tags:
-    - nonCA
+    block: "{{ lookup('template', 'certificates.rsc.j2') }}"
 
 - name: copy rsc to router
   command: scp -P {{ ansible_ssh_port }} /tmp/{{ inventory_hostname }}-certificates.rsc {{ansible_ssh_user}}@{{ansible_host}}:certificates.rsc
-  tags:
-    - nonCA
 
 - name: run rsc
   routeros_command:
@@ -50,18 +17,12 @@
       - "/import file=certificates.rsc"
       - "/file remove certificates.rsc"
   register: system_print
-  tags:
-    - nonCA
 
 - name: debug print
   debug:
     var: system_print.stdout_lines
-  tags:
-    - nonCA
 
 - name: clean
   file:
     path: /tmp/{{ inventory_hostname }}-certificates.rsc
     state: absent
-  tags:
-    - nonCA
