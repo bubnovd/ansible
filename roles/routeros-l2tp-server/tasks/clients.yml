@@ -1,0 +1,12 @@
+- name: generate clients
+  template:
+    src: l2tp-clients.rsc.j2
+    dest: /tmp/{{ inventory_hostname }}-l2tp-clients.rsc
+ 
+- name: create clients
+  command: bash -c "cat /tmp/{{inventory_hostname}}-l2tp-clients.rsc | ssh {{ansible_ssh_user}}@{{ansible_host}} -p {{ansible_ssh_port}} -T -o StrictHostKeyChecking=no -o NumberOfPasswordPrompts=1"
+  register: clients_output
+  
+- name: clients debug
+  debug:
+    var: clients_output.stdout_lines
