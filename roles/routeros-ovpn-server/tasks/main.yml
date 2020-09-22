@@ -4,4 +4,4 @@
 
 - include: clients.yml
   tags:
-    - clients
+    -clients
