@@ -6,7 +6,6 @@
         key-size={{ certificate['ros_cert_key_size'] }} days-valid={{ certificate['ros_cert_days_valid'] }} \
         key-usage={{ certificate['ros_cert_key_usage'] }};
     :put "Certificate {{ certificate['ros_cert_name'] }} Added";
-
     {% if certificate['ros_cert_is_CA'] == true %}
         /certificate sign {{ certificate['ros_cert_name'] }} ca-crl-host=127.0.0.1 name={{ certificate['ros_cert_name'] }};
     {% else %}
