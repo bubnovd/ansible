@@ -1,0 +1,17 @@
+- name: generate clients
+  template:
+    src: ovpn-clients.rsc.j2
+    dest: /tmp/{{ inventory_hostname }}-ovpn-clients.rsc
+ 
+- name: create clients
+  command: bash -c "cat /tmp/{{inventory_hostname}}-ovpn-clients.rsc | ssh {{ansible_ssh_user}}@{{ansible_host}} -p {{ansible_ssh_port}} -T -o StrictHostKeyChecking=no -o NumberOfPasswordPrompts=1"
+  register: clients_output
+  
+- name: clients debug
+  debug:
+    var: clients_output.stdout_lines
+
+- name: download certs
+  command: scp -P {{ ansible_ssh_port }} {{ansible_ssh_user}}@{{ansible_host}}:{{ item['name'] }}.crt  /tmp/{{ inventory_hostname }}-{{ item['name'] }}.crt
+  loop:
+    ros_ovpn_srv_clients

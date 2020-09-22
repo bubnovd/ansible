@@ -1,35 +1,9 @@
-- name: generate rsc
-  template:
-    src: l2tp-server.rsc.j2
-    dest: /tmp/{{ inventory_hostname }}-l2tp-server.rsc
-
-- name: copy rsc to router
-  command: scp -P {{ ansible_ssh_port }} /tmp/{{ inventory_hostname }}-l2tp-server.rsc {{ansible_ssh_user}}@{{ansible_host}}:l2tp-server.rsc
-
-- name: run rsc
-  routeros_command:
-    commands: "/import file=l2tp-server.rsc"
-  register: system_print
-
-- name: debug print
-  debug:
-    var: system_print.stdout_lines
-
-- name: generate clients
-  template:
-    src: l2tp-clients.rsc.j2
-    dest: /tmp/{{ inventory_hostname }}-l2tp-clients.rsc
+- include: server.yml
   tags:
-    - clients
- 
-- name: create clients
-  command: bash -c "cat /tmp/{{inventory_hostname}}-l2tp-clients.rsc | ssh {{ansible_ssh_user}}@{{ansible_host}} -p {{ansible_ssh_port}} -T -o StrictHostKeyChecking=no -o NumberOfPasswordPrompts=1"
+    - server
+
+- include: clients.yml
+  when:
+    ros_ovpn_create_clients == true
   tags:
-    - clients
-  register: clients_output
-  
-- name: clients debug
-  debug:
-    var: clients_output.stdout_lines
-  tags:
-    - clients
+    -clients

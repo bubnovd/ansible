@@ -1,6 +1,29 @@
-profile: OVPN-Server
-vpn_subnet: 10.254.0.0/24
-global_ospf_cost: 10
+ros_ovpn_srv_profile: OVPN-Server
+ros_ovpn_srv_vpn_subnet: 10.253.0.0/24
+ros_ovpn_srv_certificate: OVPN_Server
 
-ipsec_key: "{{ vault_ipsec_key }}"
-vpn_clients: "{{ vault_vpn_clients }}"
+#ros_ovpn_srv_clients: "{{ vault_ros_ovpn_srv_clients }}"
+ros_ovpn_create_clients: true
+ros_ovpn_srv_clients:
+  RB01:
+    name: RB01
+    password: "2415346325"
+    address: 10.253.0.1
+  RB02:
+    name: RB02
+    password: "142541431"
+    address: 10.253.0.2
+
+certificates:
+- ros_cert_name: "{{ ros_ovpn_srv_clients[0]['name'] }}"
+  ros_cert_days_valid: 365
+  ros_cert_key_size: 4096
+  ros_cert_key_usage: "tls-client"
+  ros_cert_CA_name: CA
+  ros_cert_is_CA: false
+- ros_cert_name: "{{ ros_ovpn_srv_clients[1]['name'] }}"
+  ros_cert_days_valid: 365
+  ros_cert_key_size: 4096
+  ros_cert_key_usage: "tls-client"
+  ros_cert_CA_name: CA
+  ros_cert_is_CA: false

@@ -1,29 +1,26 @@
 /log warning "Ansible is configuring OpenVPN Server now..."
 
 /interface list
-:if ([/interface list find name={{ profile }}] ="") do={
-    /interface list add name={{ profile }};
+:if ([/interface list find name={{ ros_ovpn_srv_profile }}] ="") do={
+    /interface list add name={{ ros_ovpn_srv_profile }};
     :put "Interface List Added"} else={
     :put "Interface List already exists"
 }
 
 /ppp profile
-:if ([/ppp profile find name={{ profile }}] ="") do={
-    /ppp profile add name={{ profile }} local-address={{ vpn_subnet | ipaddr('net') | ipaddr('-1') | ipaddr('address') }} address-list={{ profile }} interface-list={{ profile }} use-encryption=required;
+:if ([/ppp profile find name={{ ros_ovpn_srv_profile }}] ="") do={
+    /ppp profile add name={{ ros_ovpn_srv_profile }} local-address={{ ros_ovpn_srv_vpn_subnet | ipaddr('net') | ipaddr('-1') | ipaddr('address') }} address-list={{ ros_ovpn_srv_profile }} interface-list={{ ros_ovpn_srv_profile }};
     :put "PPP Profile Added"} else={
     :put "PPP Profile already exists"
 }
 
+/interface ovpn-server server set enabled=yes default-profile={{ ros_ovpn_srv_profile }} mode=ip require-client-certificate=yes auth=sha1,md5 cipher=aes256 certificate={{ ros_ovpn_srv_certificate }}
 
-### NEED to add certificates
-/interface ovpn-server server set enabled=yes default-profile={{ profile }} mode=ip require-client-certificate=yes auth=sha1,md5 cipher=aes256 certificate={{ profile }}
+/ip firewall filter
+:if ([/ip firewall filter find comment=OVPN_server] ="") do={
+    /ip firewall filter add action=accept chain=WAN-Input-Allow comment=OVPN_server dst-port=1194 protocol=tcp
+    :put "Firewall rule Added"} else={
+    :put "Firewall rule already exists"
+}
 
-### Need to configure
-
-/ip firewall filter add action=accept chain=WAN-Input-Allow comment=OVPN dst-port=1194 protocol=tcp
-
-# OSPF
-/routing ospf instance set 0 router-id={{ vpn_subnet | ipaddr('network') }}
-
-/routing ospf network
-:if [/routing ospf network find network={{ vpn_subnet }}] do={/routing ospf network set [find network={{ vpn_subnet }}] area=backbone} else={/routing ospf network add area=backbone network={{ vpn_subnet }}}
+/log warning "Ansible have configured OpenVPN Server"

@@ -13,10 +13,51 @@
       ros_cert_key_usage: "digital-signature,key-encipherment,tls-server"
       ros_cert_CA_name: CA
       ros_cert_is_CA: false
+    ros_ovpn_srv_certificate: "{{ certificates[1]['ros_cert_name'] }}"
   roles:
     - routeros-certificates
   tags:
-    - deploy_certs
+    - deploy_server_certs
 
+- name: Deploy OVPN server
+  hosts: user_vpn_server
+  vars:
+    certificates:
+    - ros_cert_name: CA
+    - ros_cert_name: OVPN_Server
+    ros_ovpn_srv_certificate: "{{ certificates[1]['ros_cert_name'] }}"
+  roles:
+    - routeros-ovpn-server
+  tags:
+    - deploy_ovpn_server
 
+- name: Deploy client certificates
+  hosts: user_vpn_server
+  vars:
+    certificates:
+    - ros_cert_name: RB01
+      ros_cert_days_valid: 365
+      ros_cert_key_size: 4096
+      ros_cert_key_usage: "tls-client"
+      ros_cert_CA_name: CA
+      ros_cert_is_CA: false
+    - ros_cert_name: RB02
+      ros_cert_days_valid: 365
+      ros_cert_key_size: 4096
+      ros_cert_key_usage: "tls-client"
+      ros_cert_CA_name: CA
+      ros_cert_is_CA: false
+  roles:
+    - routeros-certificates
+  tags:
+    - deploy_client_certs
+    - clients
 
+- name: Create clients
+  hosts: user_vpn_server
+  vars:
+    ros_ovpn_create_clients: true
+  roles: 
+    - routeros-ovpn-server
+  tags:
+    - clients
