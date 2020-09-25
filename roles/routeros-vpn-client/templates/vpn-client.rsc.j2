@@ -15,9 +15,12 @@
 }
 
 /ppp profile
-:if ([/ppp profile find name={{ profile }}] !="") do={
-    /ppp profile remove {{ profile }}}
-/ppp profile add name={{ profile }} address-list={{ profile }} interface-list={{ profile }} use-encryption=required
+:if ([/ppp profile find name={{ profile }}] ="") do={
+    /ppp profile add name={{ profile }} address-list={{ profile }} interface-list={{ profile }} \
+        use-encryption=required;
+    :put "PPP Profile {{ profile }} Added"} else={
+    :put "PPP Profile {{ profile }} already exists"
+}
 
 /interface
 {% for server in groups['vpn_server'] %}

@@ -58,7 +58,7 @@
 }
 
 :put "THIS IS TEMPORARY OSPF SETTINGS WHILE MIGRATING"
-/routing ospf network add network=10.255.0.0/16 area=backbone
+/routing ospf network add network=10.255.0.0/16 area=backbone comment="TEMP while migrating"
 :put "/routing ospf network add network=10.255.0.0/16 area=backbone"
 
 /log warning "Configuring OSPF done"
