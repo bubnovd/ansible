@@ -12,6 +12,6 @@
     var: clients_output.stdout_lines
 
 - name: download certs
-  command: scp -P {{ ansible_ssh_port }} {{ansible_ssh_user}}@{{ansible_host}}:{{ item['name'] }}.crt  /tmp/{{ inventory_hostname }}-{{ item['name'] }}.crt
+  command: scp -P {{ ansible_ssh_port }} {{ansible_ssh_user}}@{{ansible_host}}:cert_export_{{ item['name'] }}.crt  /tmp/{{ inventory_hostname }}-{{ item['name'] }}.crt
   loop:
-    ros_ovpn_srv_clients
+    "{{ ros_ovpn_srv_clients.values() | list() }}"
