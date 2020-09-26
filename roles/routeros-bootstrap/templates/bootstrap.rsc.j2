@@ -15,11 +15,13 @@
     :put "Interface List LAN already exists"
 }
 
+{#
 :foreach interface in=[/interface list member find list="WAN"] do={
     :local rmIface do={put "Removed $[/interface list member print terse where .id=$id]";
         /interface list member remove $id;}
     $rmIface id=$interface
 }
+#}
 
 
 {% for interface in interface_wan %}
