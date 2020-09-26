@@ -3,10 +3,10 @@ certificates:
     ros_cert_days_valid: 3650
     ros_cert_key_size: 4096
     ros_cert_key_usage: "crl-sign,key-cert-sign"
-    ros_cert_is_CA: true
+    ros_cert_is_ca: true
   - ros_cert_name: OVPN_Server
     ros_cert_days_valid: 3650
     ros_cert_key_size: 4096
     ros_cert_key_usage: "digital-signature,key-encipherment,tls-server"
-    ros_cert_CA_name: CA
-    ros_cert_is_CA: false
+    ros_cert_ca_name: CA
+    ros_cert_is_ca: false
