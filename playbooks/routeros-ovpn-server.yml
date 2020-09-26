@@ -1,19 +1,5 @@
 - name: Deploy server certificate
   hosts: user_vpn_server
-  vars:
-    certificates:
-    - ros_cert_name: CA
-      ros_cert_days_valid: 3650
-      ros_cert_key_size: 4096
-      ros_cert_key_usage: "crl-sign,key-cert-sign"
-      ros_cert_is_CA: true
-    - ros_cert_name: OVPN_Server
-      ros_cert_days_valid: 3650
-      ros_cert_key_size: 4096
-      ros_cert_key_usage: "digital-signature,key-encipherment,tls-server"
-      ros_cert_CA_name: CA
-      ros_cert_is_CA: false
-    ros_ovpn_srv_certificate: "{{ certificates[1]['ros_cert_name'] }}"
   roles:
     - routeros-certificates
   tags:
@@ -21,11 +7,6 @@
 
 - name: Deploy OVPN server
   hosts: user_vpn_server
-  vars:
-    certificates:
-    - ros_cert_name: CA
-    - ros_cert_name: OVPN_Server
-    ros_ovpn_srv_certificate: "{{ certificates[1]['ros_cert_name'] }}"
   roles:
     - routeros-ovpn-server
   tags:
@@ -34,19 +15,7 @@
 - name: Deploy client certificates
   hosts: user_vpn_server
   vars:
-    certificates:
-    - ros_cert_name: RB01
-      ros_cert_days_valid: 365
-      ros_cert_key_size: 4096
-      ros_cert_key_usage: "tls-client"
-      ros_cert_CA_name: CA
-      ros_cert_is_CA: false
-    - ros_cert_name: RB02
-      ros_cert_days_valid: 365
-      ros_cert_key_size: 4096
-      ros_cert_key_usage: "tls-client"
-      ros_cert_CA_name: CA
-      ros_cert_is_CA: false
+    certificates: "{{ client_certs }}"
   roles:
     - routeros-certificates
   tags:

@@ -32,7 +32,7 @@ remote-cert-tls server
 verb 3 
  
 # Добавление маршрутов 
-route {{ item['network'] | ipaddr('network') }} {{ item['network'] | ipaddr('netmask') }}
+route {{ item['route'] | ipaddr('network') }} {{ item['route'] | ipaddr('netmask') }}
  
 # Пауза перед установкой маршрутов после установления подключения (в секундах) 
 route-delay 5

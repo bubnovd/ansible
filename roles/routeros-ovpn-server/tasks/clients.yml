@@ -6,10 +6,11 @@
 - name: create clients
   command: bash -c "cat /tmp/{{inventory_hostname}}-ovpn-clients.rsc | ssh {{ansible_ssh_user}}@{{ansible_host}} -p {{ansible_ssh_port}} -T -o StrictHostKeyChecking=no -o NumberOfPasswordPrompts=1"
   register: clients_output
-  
+
 - name: clients debug
   debug:
     var: clients_output.stdout_lines
+  failed_when: "'SUCCESS' not in ','.join(clients_output.stdout_lines) "
 
 - name: Create clients config
   include_tasks: generate_config.yml

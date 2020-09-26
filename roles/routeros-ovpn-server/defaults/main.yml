@@ -4,18 +4,22 @@ ros_ovpn_srv_vpn_subnet: 10.253.0.0/24
 ros_ovpn_srv_certificate: OVPN_Server
 
 #ros_ovpn_srv_clients: "{{ vault_ros_ovpn_srv_clients }}"
-ros_ovpn_create_clients: true
 ros_ovpn_srv_clients:
   RB01:
     name: RB01
     password: "2415346325"
     address: 10.253.0.1
-    network: 192.168.1.0/24
+    # route which will be client.ovpn file. Which networks will routes from client via tunnel
+    route: 192.168.1.0/24
+    allowed_networks:
+      - 10.0.1.0/24
   RB02:
     name: RB02
     password: "142541431"
     address: 10.253.0.2
-    network: 192.168.2.0/24
+    route: 192.168.2.0/24
+    allowed_networks:
+      - 10.0.2.0/24
 
 certificates:
 - ros_cert_name: "{{ ros_ovpn_srv_clients[0]['name'] }}"
