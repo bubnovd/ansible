@@ -1,3 +1,4 @@
+ros_ovpn_srv_port: 1194
 ros_ovpn_srv_profile: OVPN-Server
 ros_ovpn_srv_vpn_subnet: 10.253.0.0/24
 ros_ovpn_srv_certificate: OVPN_Server
@@ -9,10 +10,12 @@ ros_ovpn_srv_clients:
     name: RB01
     password: "2415346325"
     address: 10.253.0.1
+    network: 192.168.1.0/24
   RB02:
     name: RB02
     password: "142541431"
     address: 10.253.0.2
+    network: 192.168.2.0/24
 
 certificates:
 - ros_cert_name: "{{ ros_ovpn_srv_clients[0]['name'] }}"

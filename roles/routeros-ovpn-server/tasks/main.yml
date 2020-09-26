@@ -3,7 +3,5 @@
     - server
 
 - include: clients.yml
-  when:
-    ros_ovpn_create_clients == true
   tags:
-    -clients
+    - clients

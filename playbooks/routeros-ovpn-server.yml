@@ -51,13 +51,6 @@
     - routeros-certificates
   tags:
     - deploy_client_certs
-    - clients
 
-- name: Create clients
-  hosts: user_vpn_server
-  vars:
-    ros_ovpn_create_clients: true
-  roles: 
-    - routeros-ovpn-server
-  tags:
-    - clients
+
+## Чтобы создать клиентов сначала запускаем плэйбук с --tags=deploy_client_certs, потом с тегом clients

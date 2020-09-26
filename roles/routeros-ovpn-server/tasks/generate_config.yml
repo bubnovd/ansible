@@ -1,0 +1,25 @@
+- name: debug
+  debug:
+    msg: "{{ item['name'] }}"
+
+- name: create config directories
+  file:
+    path: "/tmp/{{ item['name'] }}_OVPN.conf.d"
+    state: directory
+    mode: 0700
+
+- name: download certs
+  command: scp -P {{ ansible_ssh_port }} {{ansible_ssh_user}}@{{ansible_host}}:cert_export_{{ item['name'] }}.crt \
+    /tmp/{{ item['name'] }}_OVPN.conf.d/{{ inventory_hostname }}-{{ item['name'] }}.crt
+
+- name: generate .ovpn config
+  template:
+    src: client.ovpn.j2
+    dest: /tmp/{{ item['name'] }}_OVPN.conf.d/{{ inventory_hostname }}-{{ item['name'] }}.ovpn
+
+- name: generate auth data
+  copy:
+    dest: /tmp/{{ item['name'] }}_OVPN.conf.d/client1.txt
+    content: |
+      {{ item['name'] }}
+      {{ item['password'] }}
