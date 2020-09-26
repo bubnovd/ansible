@@ -16,6 +16,8 @@
     commands:
       - "/import file=certificates.rsc"
       - "/file remove certificates.rsc"
+  vars:
+    ansible_command_timeout: 180
   register: system_print
 
 - name: debug print

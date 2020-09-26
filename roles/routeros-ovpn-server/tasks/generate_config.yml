@@ -1,7 +1,3 @@
-- name: debug
-  debug:
-    msg: "{{ item['name'] }}"
-
 - name: create config directories
   file:
     path: "/tmp/{{ item['name'] }}_OVPN.conf.d"
