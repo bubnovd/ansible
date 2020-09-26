@@ -1,0 +1,71 @@
+ros_ovpn_srv_port: 1194
+ros_ovpn_srv_profile: OVPN-Server
+ros_ovpn_srv_vpn_subnet: 10.253.0.0/24
+ros_ovpn_srv_certificate: OVPN_Server
+ros_ovpn_srv_certificate: "{{ certificates[1]['ros_cert_name'] }}"
+
+#ros_ovpn_srv_clients: "{{ vault_ros_ovpn_srv_clients }}"
+ros_ovpn_srv_clients:
+  Bjoern:
+    name: Bjoern
+    password: "{{ vault_client1_pwd }}"
+    address: 10.253.0.1
+    # route which will be client.ovpn file. Which networks will routes from client via tunnel
+    route: 10.4.5.0/24
+    allowed_networks:
+      - 10.4.5.78-10.4.5.122
+  Stefan:
+    name: Stefan
+    password: "{{ vault_client2_pwd }}"
+    address: 10.253.0.2
+    route: 10.0.0.0/9
+    allowed_networks:
+      - 10.4.3.5-10.4.3.59
+      - 10.4.5.5-10.4.5.65
+      - 10.70.44.19
+      - 10.70.44.30
+      - 10.70.44.32-10.70.44.35
+      - 10.70.44.37-10.70.44.38
+      - 10.70.44.44-10.70.44.47
+  Marco:
+    name: Marco
+    password: "{{ vault_client3_pwd }}"
+    address: 10.253.0.3
+    # route which will be client.ovpn file. Which networks will routes from client via tunnel
+    route: 10.4.2.0/23
+    allowed_networks:
+      - 10.4.2.110-10.4.2.156
+      - 10.4.3.145-10.4.3.184
+
+client_certs:
+  - ros_cert_name: Bjoern
+    ros_cert_days_valid: 365
+    ros_cert_key_size: 4096
+    ros_cert_key_usage: "tls-client"
+    ros_cert_CA_name: CA
+    ros_cert_is_CA: false
+  - ros_cert_name: Stefan
+    ros_cert_days_valid: 365
+    ros_cert_key_size: 4096
+    ros_cert_key_usage: "tls-client"
+    ros_cert_CA_name: CA
+    ros_cert_is_CA: false
+  - ros_cert_name: Marco
+    ros_cert_days_valid: 365
+    ros_cert_key_size: 4096
+    ros_cert_key_usage: "tls-client"
+    ros_cert_CA_name: CA
+    ros_cert_is_CA: false
+
+certificates:
+  - ros_cert_name: CA
+    ros_cert_days_valid: 3650
+    ros_cert_key_size: 4096
+    ros_cert_key_usage: "crl-sign,key-cert-sign"
+    ros_cert_is_CA: true
+  - ros_cert_name: OVPN_Server
+    ros_cert_days_valid: 3650
+    ros_cert_key_size: 4096
+    ros_cert_key_usage: "digital-signature,key-encipherment,tls-server"
+    ros_cert_CA_name: CA
+    ros_cert_is_CA: false

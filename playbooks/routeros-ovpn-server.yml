@@ -1,0 +1,25 @@
+- name: Deploy server certificate
+  hosts: user_vpn_server
+  roles:
+    - routeros-certificates
+  tags:
+    - deploy_server_certs
+
+- name: Deploy OVPN server
+  hosts: user_vpn_server
+  roles:
+    - routeros-ovpn-server
+  tags:
+    - deploy_ovpn_server
+
+- name: Deploy client certificates
+  hosts: user_vpn_server
+  vars:
+    certificates: "{{ client_certs }}"
+  roles:
+    - routeros-certificates
+  tags:
+    - deploy_client_certs
+
+
+## Чтобы создать клиентов сначала запускаем плэйбук с --tags=deploy_client_certs, потом с тегом clients
