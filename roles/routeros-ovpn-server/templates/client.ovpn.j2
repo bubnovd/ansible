@@ -15,12 +15,11 @@ persist-tun
 # Пути к файлам сертификатов 
  
 # ca — сертификат CA, которым выданы сертификат клиента И сертификат сервера 
-ca CA.crt
+ca {{ inventory_hostname }}-CA.crt
 # cert — сертификат клиента
 cert {{ inventory_hostname }}-{{ item['name'] }}.crt
-{## key — закрытый ключ сертификата клиента 
-#key cert_export_client1-ovpn.key 
-#}
+# key — закрытый ключ сертификата клиента 
+key {{ inventory_hostname }}-{{ item['name'] }}.key 
 
 #в файле client1.txt сохраняем имя и пароль ppp клиента. Первая строка - name, вторая - пароль
 auth-user-pass client1.txt

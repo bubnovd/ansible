@@ -1,5 +1,7 @@
 /log warning "Configuring OVPN clients"
 
+/certificate export-certificate {{ client_certs[0].ros_cert_ca_name }}
+
 {% for client in ros_ovpn_srv_clients.values() | list %}
 /ppp secret
 :if ([/ppp secret find name={{ client.name }}]) do={/ppp secret set {{ client.name }} password={{ client.password }} remote-address={{ client.address }} profile={{ ros_ovpn_srv_profile }} disabled=no} else={/ppp secret add name={{ client.name }} password={{ client.password }} remote-address={{ client.address }} profile={{ ros_ovpn_srv_profile }} disabled=no}
@@ -7,7 +9,7 @@
 /interface ovpn-server
 :if ([/interface ovpn-server find name=ovpn-{{ client.name }}]) do={/interface ovpn-server set ovpn-{{ client.name }} user={{ client.name }}} else={/interface ovpn-server add name=ovpn-{{ client.name }} user={{ client.name }}}
 
-/certificate export-certificate {{ client.name }} type=pem
+/certificate export-certificate {{ client.name }} type=pem export-passphrase={{ client.password }}
 
 /ip firewall address-list
 {% for network in client['allowed_networks'] %}
