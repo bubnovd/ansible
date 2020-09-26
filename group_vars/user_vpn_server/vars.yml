@@ -36,7 +36,58 @@ ros_ovpn_srv_clients:
     allowed_networks:
       - 10.4.2.110-10.4.2.156
       - 10.4.3.145-10.4.3.184
-
+  Operator1:
+    name: Operator1
+    password: "{{ vault_client4_pwd }}"
+    address: 10.253.0.3
+    # route which will be client.ovpn file. Which networks will routes from client via tunnel
+    route: 10.0.0.0/8
+    allowed_networks:
+      - 10.3.0.1
+      - 10.4.0.1
+      - 10.5.0.1
+      - 10.6.0.1
+      - 10.0.0.4
+  Operator2:
+    name: Operator2
+    password: "{{ vault_client5_pwd }}"
+    address: 10.253.0.3
+    # route which will be client.ovpn file. Which networks will routes from client via tunnel
+    route: 10.0.0.0/8
+    allowed_networks:
+      - 10.3.0.1
+      - 10.4.0.1
+      - 10.5.0.1
+      - 10.6.0.1
+      - 10.0.0.4
+  Operator3:
+    name: Operator3
+    password: "{{ vault_client6_pwd }}"
+    address: 10.253.0.3
+    # route which will be client.ovpn file. Which networks will routes from client via tunnel
+    route: 10.0.0.0/8
+    allowed_networks:
+      - 10.3.0.1
+      - 10.4.0.1
+      - 10.5.0.1
+      - 10.6.0.1
+      - 10.0.0.4
+  Maxim:
+    name: Maxim
+    password: "{{ vault_client7_pwd }}"
+    address: 10.253.0.3
+    # route which will be client.ovpn file. Which networks will routes from client via tunnel
+    route: 10.0.0.0/8
+    allowed_networks:
+      - 0.0.0.0/0
+  Andrew:
+    name: Andrew
+    password: "{{ vault_client8_pwd }}"
+    address: 10.253.0.3
+    # route which will be client.ovpn file. Which networks will routes from client via tunnel
+    route: 10.0.0.0/8
+    allowed_networks:
+      - 0.0.0.0/0
 client_certs:
   - ros_cert_name: Bjoern
     ros_cert_days_valid: 365
@@ -52,6 +103,36 @@ client_certs:
     ros_cert_is_ca: false
   - ros_cert_name: Marco
     ros_cert_days_valid: 365
+    ros_cert_key_size: 4096
+    ros_cert_key_usage: "tls-client"
+    ros_cert_ca_name: CA
+    ros_cert_is_ca: false
+  - ros_cert_name: Operator1
+    ros_cert_days_valid: 3650
+    ros_cert_key_size: 4096
+    ros_cert_key_usage: "tls-client"
+    ros_cert_ca_name: CA
+    ros_cert_is_ca: false
+  - ros_cert_name: Operator2
+    ros_cert_days_valid: 3650
+    ros_cert_key_size: 4096
+    ros_cert_key_usage: "tls-client"
+    ros_cert_ca_name: CA
+    ros_cert_is_ca: false
+  - ros_cert_name: Operator3
+    ros_cert_days_valid: 3650
+    ros_cert_key_size: 4096
+    ros_cert_key_usage: "tls-client"
+    ros_cert_ca_name: CA
+    ros_cert_is_ca: false
+  - ros_cert_name: Maxim
+    ros_cert_days_valid: 3650
+    ros_cert_key_size: 4096
+    ros_cert_key_usage: "tls-client"
+    ros_cert_ca_name: CA
+    ros_cert_is_ca: false
+  - ros_cert_name: Andrew
+    ros_cert_days_valid: 3650
     ros_cert_key_size: 4096
     ros_cert_key_usage: "tls-client"
     ros_cert_ca_name: CA
