@@ -41,6 +41,5 @@
     - routeros-certificates
   tags:
     - deploy_client_certs
-    - clients
 
 ## Чтобы создать клиентов сначала запускаем плэйбук с --tags=deploy_client_certs, потом с тегом clients
