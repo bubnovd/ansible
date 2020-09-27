@@ -1,0 +1,11 @@
+ros_vpn_client_profile: L2TP-IPSec-Client
+ros_vpn_client_type: l2tp
+ros_vpn_client_server: gate5
+ros_vpn_client_servers:
+  - name: "{{ ros_vpn_client_server }}"
+    address: "{{ hostvars[ros_vpn_client_server]['ansible_host'] }}"
+    user: "{{ hostvars[ros_vpn_client_server]['vpn_clients'][inventory_hostname]['name'] }}"
+    password: "{{ hostvars[ros_vpn_client_server]['vpn_clients'][inventory_hostname]['password'] }}"
+    ipsec_secret: "{{ hostvars[ros_vpn_client_server]['ipsec_key'] }}"
+
+ros_vpn_client_need_ospf: true

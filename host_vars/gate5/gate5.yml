@@ -4,3 +4,10 @@ ipsec_key: "{{ vault_ipsec_key }}"
 global_ospf_cost: 10
 
 vpn_clients: "{{ vault_vpn_clients }}"
+
+ros_vpn_client_need_ospf: false
+
+ros_vpn_client_profile: L2TP-IPSec-Client
+ros_vpn_client_type: l2tp
+ros_vpn_client_server: gate5
+ros_vpn_client_servers: "{{ vault_ros_vpn_client_servers }}"
