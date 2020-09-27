@@ -1,11 +1,16 @@
+{% macro create(menu, fkey, fval, params='') -%}
+    :if ([{{ menu }} find {{ fkey }}={{ fval }}] ="") do={
+        {{ menu }} add {{ fkey }}={{ fval }} {{ params }};
+        :put "{{ menu }} {{ fkey }}={{ fval }} Added"} else={
+        :put "{{ menu }} {{ fkey }}={{ fval }} already exists"
+    }
+{%- endmacro %}
+
 /log warning "Ansible is configuring OpenVPN Server now..."
 
 /interface list
-:if ([/interface list find name={{ ros_ovpn_srv_profile }}] ="") do={
-    /interface list add name={{ ros_ovpn_srv_profile }};
-    :put "Interface List Added"} else={
-    :put "Interface List already exists"
-}
+{{ create('/interface list', 'name',  ros_ovpn_srv_profile ) }}
+
 
 /ppp profile
 :if ([/ppp profile find name={{ ros_ovpn_srv_profile }}] ="") do={
