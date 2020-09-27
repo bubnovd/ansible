@@ -1,4 +1,5 @@
 profile: L2TP-IPSec-Server
+secure_profile: L2TP-IPSec-Server-Secure
 vpn_subnet: 10.254.0.0/24
 global_ospf_cost: 10
 

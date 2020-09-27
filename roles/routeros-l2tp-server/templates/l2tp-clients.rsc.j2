@@ -2,7 +2,12 @@
 
 {% for client in vpn_clients.values() | list %}
 /ppp secret
+{% if client.secure == true %}
+:if ([/ppp secret find name={{ client.name }}]) do={ /ppp secret set {{ client.name }} password={{ client.password }} remote-address={{ client.address }} profile={{ secure_profile }} disabled=no; put "Edited client.name {{ client.name }}"} else={/ppp secret add name={{ client.name }} password={{ client.password }} remote-address={{ client.address }} profile={{ secure_profile }} disabled=no; put "Created client.name {{ client.name }}"} 
+{# todo: Remake to set profile=secure_profile here #}
+{% else %}
 :if ([/ppp secret find name={{ client.name }}]) do={ /ppp secret set {{ client.name }} password={{ client.password }} remote-address={{ client.address }} profile={{ profile }} disabled=no; put "Edited client.name {{ client.name }}"} else={/ppp secret add name={{ client.name }} password={{ client.password }} remote-address={{ client.address }} profile={{ profile }} disabled=no; put "Created client.name {{ client.name }}"} 
+{% endif %}
 
 /interface l2tp-server
 :if ([/interface l2tp-server find name=l2tp-{{ client.name }}]) do={/interface l2tp-server set l2tp-{{ client.name }} user={{ client.name }}} else={/interface l2tp-server add name=l2tp-{{ client.name }} user={{ client.name }}}

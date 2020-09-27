@@ -15,9 +15,13 @@
 }
 
 /ppp profile
-:if ([/ppp profile find name={{ ros_vpn_client_profile }}] !="") do={
-    /ppp profile remove {{ ros_vpn_client_profile }}}
-/ppp profile add name={{ ros_vpn_client_profile }} address-list={{ ros_vpn_client_profile }} interface-list={{ ros_vpn_client_profile }} use-encryption=required
+:if ([/ppp profile find name={{ ros_vpn_client_profile }}] ="") do={
+    /ppp profile add name={{ ros_vpn_client_profile }} address-list={{ ros_vpn_client_profile }} \
+      interface-list={{ ros_vpn_client_profile }} use-encryption=required;
+    :put "PPP Profile {{ ros_vpn_client_profile }} Added"} else={
+    :put "PPP Profile {{ ros_vpn_client_profile }} already exists"
+}
+
 
 {% if ros_vpn_client_type == 'l2tp' %}
 {% include 'l2tp.rsc.j2' %}

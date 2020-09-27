@@ -3,17 +3,42 @@
 :if ([/interface list find name={{ profile }}] ="") do={
     /interface list add name={{ profile }};
     put "Interface List Added"} else={
-    put PROST
+    put "Interface List Already exists"
 }
 
-:if ([/ppp profile find name={{ profile }}] !="") do={/ppp profile remove {{ profile }}}
-/ppp profile add name={{ profile }} local-address={{ vpn_subnet | ipaddr('net') | ipaddr('-1') | ipaddr('address') }} address-list={{ profile }} interface-list={{ profile }} use-encryption=required
+:if ([/interface list find name={{ secure_profile }}] ="") do={
+    /interface list add name={{ secure_profile }};
+    put "Interface List Added"} else={
+    put "Interface List Already exists"
+}
+
+:if ([/ppp profile find name={{ profile }}] ="") do={
+    /ppp profile add name={{ profile }} \
+        local-address={{ vpn_subnet | ipaddr('net') | ipaddr('-1') | ipaddr('address') }} \
+        address-list={{ profile }} interface-list={{ profile }} use-encryption=required;
+    :put "PPP Profile Added"} else={
+    :put "PPP Profile already exists"
+}
+
+:if ([/ppp profile find name={{ secure_profile }}] ="") do={
+    /ppp profile add name={{ secure_profile }} \
+        local-address={{ vpn_subnet | ipaddr('net') | ipaddr('-1') | ipaddr('address') }} \
+        address-list={{ secure_profile }} interface-list={{ secure_profile }} use-encryption=required;
+    :put "PPP Profile Added"} else={
+    :put "PPP Profile already exists"
+}
 
 /interface l2tp-server server set enabled=yes authentication=mschap2 default-profile={{ profile }} use-ipsec=yes ipsec-secret={{ ipsec_key }} one-session-per-host=yes
 
 /ip firewall filter add action=accept chain=WAN-Input-Allow dst-port=1701 protocol=udp comment=L2TP
 /ip firewall filter add action=accept chain=WAN-Input-Allow dst-port=500 protocol=udp comment=IPSec
 /ip firewall filter add action=accept chain=WAN-Input-Allow dst-port=4500 protocol=udp comment=IPSec
+
+:if ([/ip firewall filter find comment={{ secure_profile }}] = "") do={
+    /ip firewall filter add chain=forward in-interface-list={{ secure_profile }} dst-address-list=NET \
+        action=drop comment={{ secure_profile }};
+    :put "Firewall for {{ secure_profile }} have configured"} else={
+    :put "Firewall for {{ secure_profile }} already configured"} 
 
 # OSPF
 /routing ospf instance set 0 router-id={{ vpn_subnet | ipaddr('network') }} redistribute-static=as-type-1 
