@@ -8,12 +8,19 @@
 
 - name: run rsc
   routeros_command:
-    commands: "/import file=l2tp-server.rsc"
+    commands: 
+      - "/import file=l2tp-server.rsc"
+      - "/file remove l2tp-server.rsc"
   register: system_print
 
 - name: debug print
   debug:
     var: system_print.stdout_lines
+
+- name: clean
+  file:
+    path: /tmp/{{ inventory_hostname }}-l2tp-server.rsc
+    state: absent
 
 - name: generate clients
   template:
@@ -33,3 +40,8 @@
     var: clients_output.stdout_lines
   tags:
     - clients
+
+- name: clean
+  file:
+    path: /tmp/{{ inventory_hostname }}-l2tp-clients.rsc
+    state: absent
