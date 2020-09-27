@@ -1,0 +1,27 @@
+/log warning "Configuring L2TP client interface"
+
+/interface l2tp-client
+{% for server in ros_vpn_client_servers %}
+:if ([/interface l2tp-client find name={{ server['name'] }}] ="") do={
+    /interface l2tp-client add name={{ server['name'] }} connect-to={{ server['address'] }} profile={{ ros_vpn_client_profile }} \
+        user={{ server['user'] }} use-ipsec=yes ipsec-secret="{{ server['ipsec_secret'] }}" \
+        password="{{ server['password'] }}" disabled=no;
+    :put "Interface {{ server['name'] }} added"} else={
+    :put "Interface {{ server['name'] }} already exists"
+}
+
+/ip firewall nat
+{% if server['nat'] == true %}
+:if ([/ip firewall nat find comment="{{ server['name'] }}-masquerade"] ="") do={
+    /ip firewall nat add chain=srcnat out-interface={{ server['name'] }} action=masquerade \
+        comment="{{ server['name'] }}-masquerade";
+    :put "Masqureade added"} else={
+    :put "Masqureade already exists"
+}
+{% endif %}
+
+{% if server['routes'] is defined %}
+{% include 'routes.rsc.j2' %}
+{% endif %}
+
+{% endfor %}

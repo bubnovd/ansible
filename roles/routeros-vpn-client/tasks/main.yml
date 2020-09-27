@@ -8,9 +8,16 @@
 
 - name: run rsc
   routeros_command:
-    commands: "/import file=vpn-client.rsc"
+    commands: 
+      - "/import file=vpn-client.rsc"
+      - "/file remove vpn-client.rsc"
   register: system_print
 
 - name: debug print
   debug:
     var: system_print.stdout_lines
+
+- name: clean
+  file:
+    path: /tmp/{{ inventory_hostname }}-vpn-client.rsc
+    state: absent

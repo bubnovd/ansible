@@ -1,33 +1,28 @@
 /log warning "Configuring VPN client"
 
 /interface list
-:if ([/interface list find name={{ profile }}] ="") do={
-    /interface list add name={{ profile }};
+:if ([/interface list find name={{ ros_vpn_client_profile }}] ="") do={
+    /interface list add name={{ ros_vpn_client_profile }};
     :put "Interface List Added"} else={
     :put "Interface List already exists"
 }
 
 :if ([/interface list find name=VPN] ="") do={
     /interface list add name=VPN;
-    /interface list set VPN include={{ profile }}
+    /interface list set VPN include={{ ros_vpn_client_profile }}
     :put "Interface List VPN Added"} else={
     :put "Interface List VPN already exists"
 }
 
 /ppp profile
-:if ([/ppp profile find name={{ profile }}] !="") do={
-    /ppp profile remove {{ profile }}}
-/ppp profile add name={{ profile }} address-list={{ profile }} interface-list={{ profile }} use-encryption=required
+:if ([/ppp profile find name={{ ros_vpn_client_profile }}] !="") do={
+    /ppp profile remove {{ ros_vpn_client_profile }}}
+/ppp profile add name={{ ros_vpn_client_profile }} address-list={{ ros_vpn_client_profile }} interface-list={{ ros_vpn_client_profile }} use-encryption=required
 
-/interface
-{% for server in groups['vpn_server'] %}
-:if ([/interface l2tp-client find name={{ server }}] ="") do={
-    /interface l2tp-client add name={{ server }} connect-to={{ hostvars[server].ansible_host }} profile={{ profile }} \
-        user={{ inventory_hostname }} use-ipsec=yes ipsec-secret={{ hostvars[server]['ipsec_key'] }} \
-        password={{ hostvars[server]['vpn_clients'][inventory_hostname]['password'] }} disabled=no;
-    :put "Interface {{ server }} added"} else={
-    :put "Interface {{ server }} already exists"
-}
-{% endfor %}
+{% if ros_vpn_client_type == 'l2tp' %}
+{% include 'l2tp.rsc.j2' %}
+{% endif %}
 
+{% if ros_vpn_client_need_ospf == 'true' %}
 {% include 'ospf.rsc.j2' %}
+{% endif %}
