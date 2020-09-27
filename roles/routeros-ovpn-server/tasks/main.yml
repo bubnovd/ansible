@@ -1,0 +1,7 @@
+- include: server.yml
+  tags:
+    - server
+
+- include: clients.yml
+  tags:
+    - clients

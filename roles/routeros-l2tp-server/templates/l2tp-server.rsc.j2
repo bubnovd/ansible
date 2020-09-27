@@ -41,7 +41,7 @@
     :put "Firewall for {{ secure_profile }} already configured"} 
 
 # OSPF
-/routing ospf instance set 0 router-id={{ vpn_subnet | ipaddr('network') }}
+/routing ospf instance set 0 router-id={{ vpn_subnet | ipaddr('network') }} redistribute-static=as-type-1 
 
 /routing ospf network
 :if [/routing ospf network find network={{ vpn_subnet }}] do={/routing ospf network set [find network={{ vpn_subnet }}] area=backbone} else={/routing ospf network add area=backbone network={{ vpn_subnet }}}

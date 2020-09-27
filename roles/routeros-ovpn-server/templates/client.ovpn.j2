@@ -1,0 +1,37 @@
+client 
+dev tun 
+proto tcp 
+ 
+remote {{ ansible_host }} {{ ros_ovpn_srv_port }}
+ 
+resolv-retry infinite 
+nobind 
+persist-key 
+persist-tun 
+ 
+# Отключает сообщения о повторяющихся пакетах 
+;mute-replay-warnings 
+ 
+# Пути к файлам сертификатов 
+ 
+# ca — сертификат CA, которым выданы сертификат клиента И сертификат сервера 
+ca {{ inventory_hostname }}-CA.crt
+# cert — сертификат клиента
+cert {{ inventory_hostname }}-{{ item['name'] }}.crt
+# key — закрытый ключ сертификата клиента 
+key {{ inventory_hostname }}-{{ item['name'] }}.key 
+
+#в файле client1.txt сохраняем имя и пароль ppp клиента. Первая строка - name, вторая - пароль
+auth-user-pass client1.txt
+ 
+# Сообщает клиенту, что он должен проверять сертификат сервера на предмет правильности используемых key-usage 
+remote-cert-tls server  
+ 
+# Уровень лога. Чем больше значение — тем подробнее. 
+verb 3 
+ 
+# Добавление маршрутов 
+route {{ item['route'] | ipaddr('network') }} {{ item['route'] | ipaddr('netmask') }}
+ 
+# Пауза перед установкой маршрутов после установления подключения (в секундах) 
+route-delay 5

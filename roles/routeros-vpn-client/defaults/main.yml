@@ -1,1 +1,13 @@
-profile: L2TP-IPSec-Client
+ros_vpn_client_profile: L2TP-IPSec-Client
+ros_vpn_client_type: l2tp
+ros_vpn_client_servers:
+  - name: server1
+    address: server1.example.com
+    user: user1
+    password: password1
+    ipsec_secret: secret1
+  - name: server2
+    address: server2.example.com
+    user: user2
+    password: password2
+    ipsec_secret: secret2

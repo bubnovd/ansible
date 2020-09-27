@@ -1,0 +1,24 @@
+/log warning "Ansible is configuring OpenVPN Server now..."
+
+/interface list
+:if ([/interface list find name={{ ros_ovpn_srv_profile }}] ="") do={
+    /interface list add name={{ ros_ovpn_srv_profile }};
+    :put "Interface List Added"} else={
+    :put "Interface List already exists"
+}
+
+/ppp profile
+:if ([/ppp profile find name={{ ros_ovpn_srv_profile }}] ="") do={
+    /ppp profile add name={{ ros_ovpn_srv_profile }} local-address={{ ros_ovpn_srv_vpn_subnet | ipaddr('net') | ipaddr('-1') | ipaddr('address') }} address-list={{ ros_ovpn_srv_profile }} interface-list={{ ros_ovpn_srv_profile }};
+    :put "PPP Profile Added"} else={
+    :put "PPP Profile already exists"
+}
+
+/interface ovpn-server server set enabled=yes default-profile={{ ros_ovpn_srv_profile }} \
+    mode=ip require-client-certificate=yes auth=sha1,md5 cipher=blowfish128,aes256 \
+    certificate={{ ros_ovpn_srv_certificate }} port={{ ros_ovpn_srv_port }}
+
+
+{% include 'ovpn_server_firewall.rsc.j2' %}
+
+/log warning "Ansible have configured OpenVPN Server"

@@ -1,0 +1,9 @@
+/ip route
+
+{% for prefix in server['routes'] %}
+:if ([/ip route find comment="{{ prefix }} via {{ server['name'] }}"] ="") do={
+    /ip route add dst-address={{ prefix }} gateway={{ server['name'] }} comment="{{ prefix }} via {{ server['name'] }}";
+    :put "Route added"} else={
+    :put "Route already exists"
+}
+{% endfor %}
