@@ -39,7 +39,7 @@ ros_ovpn_srv_clients:
   Operator1:
     name: Operator1
     password: "{{ vault_client4_pwd }}"
-    address: 10.253.0.3
+    address: 10.253.0.4
     # route which will be client.ovpn file. Which networks will routes from client via tunnel
     route: 10.0.0.0/8
     allowed_networks:
@@ -51,7 +51,7 @@ ros_ovpn_srv_clients:
   Operator2:
     name: Operator2
     password: "{{ vault_client5_pwd }}"
-    address: 10.253.0.3
+    address: 10.253.0.5
     # route which will be client.ovpn file. Which networks will routes from client via tunnel
     route: 10.0.0.0/8
     allowed_networks:
@@ -63,7 +63,7 @@ ros_ovpn_srv_clients:
   Operator3:
     name: Operator3
     password: "{{ vault_client6_pwd }}"
-    address: 10.253.0.3
+    address: 10.253.0.6
     # route which will be client.ovpn file. Which networks will routes from client via tunnel
     route: 10.0.0.0/8
     allowed_networks:
@@ -75,7 +75,7 @@ ros_ovpn_srv_clients:
   Maxim:
     name: Maxim
     password: "{{ vault_client7_pwd }}"
-    address: 10.253.0.3
+    address: 10.253.0.7
     # route which will be client.ovpn file. Which networks will routes from client via tunnel
     route: 10.0.0.0/8
     allowed_networks:
@@ -83,7 +83,7 @@ ros_ovpn_srv_clients:
   Andrew:
     name: Andrew
     password: "{{ vault_client8_pwd }}"
-    address: 10.253.0.3
+    address: 10.253.0.8
     # route which will be client.ovpn file. Which networks will routes from client via tunnel
     route: 10.0.0.0/8
     allowed_networks:
