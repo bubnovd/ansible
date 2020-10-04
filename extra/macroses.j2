@@ -1,0 +1,7 @@
+{% macro create(menu, fkey, fval, params='') -%}
+    :if ([{{ menu }} find {{ fkey }}={{ fval }}] ="") do={
+        {{ menu }} add {{ fkey }}={{ fval }} {{ params }};
+        :put "{{ menu }} {{ fkey }}={{ fval }} Added"} else={
+        :put "{{ menu }} {{ fkey }}={{ fval }} already exists"
+    }
+{%- endmacro %}

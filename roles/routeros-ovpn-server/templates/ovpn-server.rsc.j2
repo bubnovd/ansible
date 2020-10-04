@@ -1,15 +1,9 @@
-{% macro create(menu, fkey, fval, params='') -%}
-    :if ([{{ menu }} find {{ fkey }}={{ fval }}] ="") do={
-        {{ menu }} add {{ fkey }}={{ fval }} {{ params }};
-        :put "{{ menu }} {{ fkey }}={{ fval }} Added"} else={
-        :put "{{ menu }} {{ fkey }}={{ fval }} already exists"
-    }
-{%- endmacro %}
-{# Todo: need import here  #}
+{% import 'extra/macroses.j2' as macros %}
+
 /log warning "Ansible is configuring OpenVPN Server now..."
 
 /interface list
-{{ create('/interface list', 'name',  ros_ovpn_srv_profile ) }}
+{{ macros.create('/interface list', 'name',  ros_ovpn_srv_profile ) }}
 
 
 /ppp profile
