@@ -1,11 +1,10 @@
+{% import 'extra/macroses.j2' as macros %}
+
 /log warning "Ansible is configuring OpenVPN Server now..."
 
 /interface list
-:if ([/interface list find name={{ ros_ovpn_srv_profile }}] ="") do={
-    /interface list add name={{ ros_ovpn_srv_profile }};
-    :put "Interface List Added"} else={
-    :put "Interface List already exists"
-}
+{{ macros.create('/interface list', 'name',  ros_ovpn_srv_profile ) }}
+
 
 /ppp profile
 :if ([/ppp profile find name={{ ros_ovpn_srv_profile }}] ="") do={
