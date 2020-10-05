@@ -1,21 +1,40 @@
+{% import 'extra/macroses.j2' as macros %}
+
 /log warning "Configuring OVPN clients"
 
 /certificate export-certificate {{ client_certs[0].ros_cert_ca_name }}
 
 {% for client in ros_ovpn_srv_clients.values() | list %}
 /ppp secret
-:if ([/ppp secret find name={{ client.name }}]) do={/ppp secret set {{ client.name }} password={{ client.password }} remote-address={{ client.address }} profile={{ ros_ovpn_srv_profile }} disabled=no} else={/ppp secret add name={{ client.name }} password={{ client.password }} remote-address={{ client.address }} profile={{ ros_ovpn_srv_profile }} disabled=no}
+{{ macros.create_command('/ppp secret', 'name', client.name, 
+    'password=' + client.password + ' ' +
+    'profile=' + ros_ovpn_srv_profile + ' ' +
+    'disabled=no' 
+) }}
 
 /interface ovpn-server
-:if ([/interface ovpn-server find name=ovpn-{{ client.name }}]) do={/interface ovpn-server set ovpn-{{ client.name }} user={{ client.name }}} else={/interface ovpn-server add name=ovpn-{{ client.name }} user={{ client.name }}}
+{{ macros.create_command('/interface ovpn-server', 'name', 'ovpn-' + client.name, 
+    'user=' + client.name + ' ' +
+    'disabled=no' 
+) }}
 
 /certificate export-certificate {{ client.name }} type=pem export-passphrase={{ client.password }}
 
 /ip firewall address-list
 {% for network in client['allowed_networks'] %}
-:if ([/ip firewall address-list find list={{ client.name }} address={{ network }}] ="") do={/ip firewall address-list add list={{ client.name }} address={{ network }}; :put "SUCCESS: Address List Added"} else={:put "SUCCESS: Address List already exists"}
+{{ macros.create_command('/ip firewall address-list', 'list', client.name, 
+    'address=' + network + ' ' +
+    'disabled=no' 
+) }}
 {% endfor %}
 
 /ip firewall filter
-:if ([/ip firewall filter find comment={{ ros_ovpn_srv_profile }}-Forward-Allow-{{ client.name }}] ="") do={/ip firewall filter add chain={{ ros_ovpn_srv_profile }}-Forward-Allow action=accept in-interface=ovpn-{{ client.name }} dst-address-list={{ client.name }} comment={{ ros_ovpn_srv_profile }}-Forward-Allow-{{ client.name }}; :put "SUCCESS: Firewall rule Added"} else={:put "SUCCESS: Firewall rule already exists"}
+{{ macros.create_command('/ip firewall filter', 'comment', ros_ovpn_srv_profile  + '_forward-allow' + client.name, 
+    'chain=' + ros_ovpn_srv_profile + '_forward-allow ' +
+    'in-interface=ovpn-' +  client.name + ' ' +
+    'dst-address-list=' + client.name + ' ' +
+    'action=accept' + ' ' +
+    'disabled=no' 
+) }}
+
 {% endfor %}
