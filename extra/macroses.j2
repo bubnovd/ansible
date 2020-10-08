@@ -6,6 +6,6 @@
     }
 {%- endmacro %}
 
-{% macro create_command(menu, fkey, fval, params='') -%}
-    :if ([{{ menu }} find {{ fkey }}={{ fval }}] ="") do={ {{ menu }} add {{ fkey }}={{ fval }} {{ params }}; :put "{{ menu }} {{ fkey }}={{ fval }} Added"} else={:put "{{ menu }} {{ fkey }}={{ fval }} already exists"}
+{%- macro create_command(menu, fkey, fval, params='') -%}
+    :if ([{{ menu }} find {{ fkey }}={{ fval }}] ="") do={ {{ menu }} add {{ fkey }}={{ fval }} {{ params }}; :put "{{ menu }} {{ fkey }}={{ fval }} Added"} else={ {{ menu }} set {{ params }} [ find  {{ fkey }}={{ fval }} ]  }
 {%- endmacro %}

@@ -22,7 +22,8 @@
 
 /ip firewall address-list
 {% for network in client['allowed_networks'] %}
-{{ macros.create_command('/ip firewall address-list', 'list', client.name, 
+{{ macros.create_command('/ip firewall address-list', 'comment', ros_ovpn_srv_profile + '_' + client.name + '_' + network,
+    'list=' + ros_ovpn_srv_profile + '_' + client.name + ' ' + 
     'address=' + network + ' ' +
     'disabled=no' 
 ) }}
@@ -32,7 +33,7 @@
 {{ macros.create_command('/ip firewall filter', 'comment', ros_ovpn_srv_profile  + '_forward-allow' + client.name, 
     'chain=' + ros_ovpn_srv_profile + '_forward-allow ' +
     'in-interface=ovpn-' +  client.name + ' ' +
-    'dst-address-list=' + client.name + ' ' +
+    'dst-address-list=' + ros_ovpn_srv_profile + '_' + client.name + ' ' +
     'action=accept' + ' ' +
     'disabled=no' 
 ) }}

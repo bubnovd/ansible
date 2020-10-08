@@ -46,6 +46,8 @@
     'jump-target=' + ros_ovpn_srv_profile + '_forward-allow '
 ) }}
 
+{# todo: remove this drop. It works on main forward chain #}
+
 {{ macros.create('/ip firewall filter', 'comment', ros_ovpn_srv_profile + '_forward-drop', 
     'chain=' + ros_ovpn_srv_profile + '_forward ' +
     'action=drop'
@@ -90,6 +92,8 @@
     'action=jump ' + 
     'jump-target=forward_' + ros_ovpn_srv_profile + '_allow '
 ) }}
+
+{# todo: remove this drop. It works on main forward chain #}
 
 {{ macros.create('/ip firewall filter', 'comment', 'forward_' + ros_ovpn_srv_profile + '_drop', 
     'chain=forward_' + ros_ovpn_srv_profile + ' ' +
