@@ -1,4 +1,4 @@
-ros_ovpn_srv_port: 1194
+ros_ovpn_srv_port: '1194'
 ros_ovpn_srv_profile: OVPN-Server
 ros_ovpn_srv_vpn_subnet: 10.253.0.0/24
 ros_ovpn_srv_certificate: OVPN_Server
@@ -27,6 +27,8 @@ ros_ovpn_srv_clients:
       - 10.70.44.32-10.70.44.35
       - 10.70.44.37-10.70.44.38
       - 10.70.44.44-10.70.44.47
+      - 10.5.0.0-10.5.0.255
+      - 10.5.9.0-10.5.9.255
   Marco:
     name: Marco
     password: "{{ vault_client3_pwd }}"

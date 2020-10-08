@@ -10,7 +10,7 @@
 - name: clients debug
   debug:
     var: clients_output.stdout_lines
-  failed_when: "'SUCCESS' not in ','.join(clients_output.stdout_lines) "
+  failed_when: "'error' in ','.join(clients_output.stdout_lines) "
 
 - name: Create clients config
   include_tasks: generate_config.yml

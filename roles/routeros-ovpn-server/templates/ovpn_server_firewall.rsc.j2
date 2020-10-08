@@ -1,95 +1,101 @@
+{% import 'extra/macroses.j2' as macros %}
+
 /ip firewall filter
-:if ([/ip firewall filter find comment=OVPN_server] ="") do={
-    /ip firewall filter add action=accept chain=WAN-Input-Allow comment=OVPN_server \
-        dst-port={{ ros_ovpn_srv_port }} protocol=tcp
-    :put "Firewall rule Added"} else={
-    :put "Firewall rule already exists"
-}
+{{ macros.create('/ip firewall filter', 'comment', 'WAN-Input-Allow_' + ros_ovpn_srv_profile, 
+    'chain=WAN-Input-Allow ' +
+    'protocol=tcp ' +
+    'dst-port=' + ros_ovpn_srv_port +  ' ' +
+    'action=accept'
+) }}
 
-# ip firewall filter in-interface-list=OVPN_server
-:if ([/ip firewall filter find in-interface-list={{ ros_ovpn_srv_profile }} action=jump] ="") do={
-    /ip firewall filter add chain=forward in-interface-list={{ ros_ovpn_srv_profile }} action=jump \
-        jump-target={{ ros_ovpn_srv_profile }}-Forward comment=---------------------------------------------Forward-in-{{ ros_ovpn_srv_profile }}---------------------------------------------;
-    :put "Firewall rule Added"} else={
-    :put "Firewall rule already exists"
-}
+# /ip firewall filter in-interface-list=OVPN_server
+{{ macros.create('/ip firewall filter', 'comment', '---------------------------------------------Forward-in-' + ros_ovpn_srv_profile + '---------------------------------------------', 
+    'chain=forward ' +
+    'in-interface-list=' + ros_ovpn_srv_profile + ' ' +
+    'action=jump ' +
+    'jump-target=' + ros_ovpn_srv_profile  + '_forward'
+) }}
 
-:if ([/ip firewall filter find comment={{ ros_ovpn_srv_profile }}-Forward-established] ="") do={
-    add chain={{ ros_ovpn_srv_profile }}-Forward connection-state=established action=accept comment={{ ros_ovpn_srv_profile }}-Forward-established;
-    :put "Firewall rule Added"} else={
-    :put "Firewall rule already exists"
-}
+{{ macros.create('/ip firewall filter', 'comment', ros_ovpn_srv_profile + '_forward-established', 
+    'chain=' + ros_ovpn_srv_profile + '_forward ' +
+    'connection-state=established ' +
+    'action=accept'
+) }}
 
-:if ([/ip firewall filter find comment={{ ros_ovpn_srv_profile }}-Forward-related] ="") do={
-    add chain={{ ros_ovpn_srv_profile }}-Forward connection-state=related action=accept comment={{ ros_ovpn_srv_profile }}-Forward-related;
-    :put "Firewall rule Added"} else={
-    :put "Firewall rule already exists"
-}
+{{ macros.create('/ip firewall filter', 'comment', ros_ovpn_srv_profile + '_forward-related', 
+    'chain=' + ros_ovpn_srv_profile + '_forward ' +
+    'connection-state=related ' +
+    'action=accept'
+) }}
 
-:if ([/ip firewall filter find comment={{ ros_ovpn_srv_profile }}-Forward-untracked] ="") do={
-    add chain={{ ros_ovpn_srv_profile }}-Forward connection-state=untracked action=accept comment={{ ros_ovpn_srv_profile }}-Forward-untracked;
-    :put "Firewall rule Added"} else={
-    :put "Firewall rule already exists"
-}
+{{ macros.create('/ip firewall filter', 'comment', ros_ovpn_srv_profile + '_forward-untracked', 
+    'chain=' + ros_ovpn_srv_profile + '_forward ' +
+    'connection-state=untracked ' +
+    'action=accept'
+) }}
 
-:if ([/ip firewall filter find comment={{ ros_ovpn_srv_profile }}-Forward-invalid] ="") do={
-    add chain={{ ros_ovpn_srv_profile }}-Forward connection-state=invalid action=drop comment={{ ros_ovpn_srv_profile }}-Forward-invalid;
-    :put "Firewall rule Added"} else={
-    :put "Firewall rule already exists"
-}
+{{ macros.create('/ip firewall filter', 'comment', ros_ovpn_srv_profile + '_forward-invalid', 
+    'chain=' + ros_ovpn_srv_profile + '_forward ' +
+    'connection-state=invalid ' +
+    'action=drop'
+) }}
 
-:if ([/ip firewall filter find comment={{ ros_ovpn_srv_profile }}-Forward-jump-to-{{ ros_ovpn_srv_profile }}-Forward-Allow] ="") do={
-    add chain={{ ros_ovpn_srv_profile }}-Forward action=jump jump-target={{ ros_ovpn_srv_profile }}-Forward-Allow comment={{ ros_ovpn_srv_profile }}-Forward-jump-to-{{ ros_ovpn_srv_profile }}-Forward-Allow;
-    :put "Firewall rule Added"} else={
-    :put "Firewall rule already exists"
-}
+{{ macros.create('/ip firewall filter', 'comment', ros_ovpn_srv_profile + '_forward-jump_' + ros_ovpn_srv_profile + '_forward-allow', 
+    'chain=' + ros_ovpn_srv_profile + '_forward ' +
+    'action=jump ' + 
+    'jump-target=' + ros_ovpn_srv_profile + '_forward-allow '
+) }}
 
-:if ([/ip firewall filter find comment={{ ros_ovpn_srv_profile }}-Forward-Drop] ="") do={
-    add chain={{ ros_ovpn_srv_profile }}-Forward action=drop comment={{ ros_ovpn_srv_profile }}-Forward-Drop;
-    :put "Firewall rule Added"} else={
-    :put "Firewall rule already exists"
-}
+{# todo: remove this drop. It works on main forward chain #}
 
-# ip firewall filter out-interface-list=OVPN_server
-:if ([/ip firewall filter find out-interface-list={{ ros_ovpn_srv_profile }} action=jump] ="") do={
-    /ip firewall filter add chain=forward out-interface-list={{ ros_ovpn_srv_profile }} action=jump \
-        jump-target=Forward-{{ ros_ovpn_srv_profile }} comment=---------------------------------------------Forward-out-{{ ros_ovpn_srv_profile }}---------------------------------------------;
-    :put "Firewall rule Added"} else={
-    :put "Firewall rule already exists"
-}
+{{ macros.create('/ip firewall filter', 'comment', ros_ovpn_srv_profile + '_forward-drop', 
+    'chain=' + ros_ovpn_srv_profile + '_forward ' +
+    'action=drop'
+) }}
 
-:if ([/ip firewall filter find comment=Forward-{{ ros_ovpn_srv_profile }}-established] ="") do={
-    add chain=Forward-{{ ros_ovpn_srv_profile }} connection-state=established action=accept comment=Forward-{{ ros_ovpn_srv_profile }}-established;
-    :put "Firewall rule Added"} else={
-    :put "Firewall rule already exists"
-}
 
-:if ([/ip firewall filter find comment=Forward-{{ ros_ovpn_srv_profile }}-related] ="") do={
-    add chain=Forward-{{ ros_ovpn_srv_profile }} connection-state=related action=accept comment=Forward-{{ ros_ovpn_srv_profile }}-related;
-    :put "Firewall rule Added"} else={
-    :put "Firewall rule already exists"
-}
 
-:if ([/ip firewall filter find comment=Forward-{{ ros_ovpn_srv_profile }}-untracked] ="") do={
-    add chain=Forward-{{ ros_ovpn_srv_profile }} connection-state=untracked action=accept comment=Forward-{{ ros_ovpn_srv_profile }}-untracked;
-    :put "Firewall rule Added"} else={
-    :put "Firewall rule already exists"
-}
+# /ip firewall filter out-interface-list=OVPN_server
+{{ macros.create('/ip firewall filter', 'comment', '---------------------------------------------Forward-out-' + ros_ovpn_srv_profile + '---------------------------------------------', 
+    'chain=forward ' +
+    'out-interface-list=' + ros_ovpn_srv_profile + ' ' +
+    'action=jump ' +
+    'jump-target=forward_' + ros_ovpn_srv_profile
+) }}
 
-:if ([/ip firewall filter find comment=Forward-{{ ros_ovpn_srv_profile }}-invalid] ="") do={
-    add chain=Forward-{{ ros_ovpn_srv_profile }} connection-state=invalid action=drop comment=Forward-{{ ros_ovpn_srv_profile }}-invalid;
-    :put "Firewall rule Added"} else={
-    :put "Firewall rule already exists"
-}
+{{ macros.create('/ip firewall filter', 'comment', 'forward_' + ros_ovpn_srv_profile + '_established', 
+    'chain=forward_' + ros_ovpn_srv_profile + ' ' +
+    'connection-state=established ' +
+    'action=accept'
+) }}
 
-:if ([/ip firewall filter find comment=Forward-{{ ros_ovpn_srv_profile }}-jump-to-Forward-{{ ros_ovpn_srv_profile }}-Allow] ="") do={
-    add chain=Forward-{{ ros_ovpn_srv_profile }} action=jump jump-target=Forward-{{ ros_ovpn_srv_profile }}-Allow comment=Forward-{{ ros_ovpn_srv_profile }}-jump-to-Forward-{{ ros_ovpn_srv_profile }}-Allow;
-    :put "Firewall rule Added"} else={
-    :put "Firewall rule already exists"
-}
+{{ macros.create('/ip firewall filter', 'comment', 'forward_' + ros_ovpn_srv_profile + '_related', 
+    'chain=forward_' + ros_ovpn_srv_profile + ' ' +
+    'connection-state=related ' +
+    'action=accept'
+) }}
 
-:if ([/ip firewall filter find comment=Forward-{{ ros_ovpn_srv_profile }}-Drop] ="") do={
-    add chain=Forward-{{ ros_ovpn_srv_profile }} action=drop comment=Forward-{{ ros_ovpn_srv_profile }}-Drop;
-    :put "Firewall rule Added"} else={
-    :put "Firewall rule already exists"
-}
+{{ macros.create('/ip firewall filter', 'comment', 'forward_' + ros_ovpn_srv_profile + '_untracked', 
+    'chain=forward_' + ros_ovpn_srv_profile + ' ' +
+    'connection-state=untracked ' +
+    'action=accept'
+) }}
+
+{{ macros.create('/ip firewall filter', 'comment', 'forward_' + ros_ovpn_srv_profile + '_invalid', 
+    'chain=forward_' + ros_ovpn_srv_profile + ' ' +
+    'connection-state=invalid ' +
+    'action=drop'
+) }}
+
+{{ macros.create('/ip firewall filter', 'comment', 'forward_' + ros_ovpn_srv_profile + '_jump-forward_' + ros_ovpn_srv_profile + '_allow', 
+    'chain=forward_' + ros_ovpn_srv_profile + ' ' +
+    'action=jump ' + 
+    'jump-target=forward_' + ros_ovpn_srv_profile + '_allow '
+) }}
+
+{# todo: remove this drop. It works on main forward chain #}
+
+{{ macros.create('/ip firewall filter', 'comment', 'forward_' + ros_ovpn_srv_profile + '_drop', 
+    'chain=forward_' + ros_ovpn_srv_profile + ' ' +
+    'action=drop'
+) }}

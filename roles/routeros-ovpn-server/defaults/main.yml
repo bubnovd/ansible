@@ -1,4 +1,4 @@
-ros_ovpn_srv_port: 1194
+ros_ovpn_srv_port: '1194'
 ros_ovpn_srv_profile: OVPN-Server
 ros_ovpn_srv_vpn_subnet: 10.253.0.0/24
 ros_ovpn_srv_certificate: OVPN_Server
