@@ -90,6 +90,21 @@ ros_ovpn_srv_clients:
     route: 10.0.0.0/8
     allowed_networks:
       - 0.0.0.0/0
+  Martin:
+    name: Martin
+    password: "{{ vault_client9_pwd }}"
+    address: 10.253.0.2
+    route: 10.0.0.0/9
+    allowed_networks:
+      - 10.4.3.5-10.4.3.59
+      - 10.4.5.5-10.4.5.65
+      - 10.70.44.19
+      - 10.70.44.30
+      - 10.70.44.32-10.70.44.35
+      - 10.70.44.37-10.70.44.38
+      - 10.70.44.44-10.70.44.47
+      - 10.5.0.0-10.5.0.255
+      - 10.5.9.0-10.5.9.255
 client_certs:
   - ros_cert_name: Bjoern
     ros_cert_days_valid: 365
@@ -135,6 +150,12 @@ client_certs:
     ros_cert_is_ca: false
   - ros_cert_name: Andrew
     ros_cert_days_valid: 3650
+    ros_cert_key_size: 4096
+    ros_cert_key_usage: "tls-client"
+    ros_cert_ca_name: CA
+    ros_cert_is_ca: false
+  - ros_cert_name: Martin
+    ros_cert_days_valid: 365
     ros_cert_key_size: 4096
     ros_cert_key_usage: "tls-client"
     ros_cert_ca_name: CA
