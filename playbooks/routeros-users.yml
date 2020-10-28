@@ -1,0 +1,4 @@
+- name: Deploy RouterOS users and groups
+  hosts: all
+  roles:
+    - routeros-users
