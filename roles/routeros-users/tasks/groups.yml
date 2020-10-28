@@ -1,0 +1,18 @@
+- name: generate groups
+  template:
+    src: groups.rsc.j2
+    dest: /tmp/{{ inventory_hostname }}-groups.rsc
+ 
+- name: create groups
+  command: bash -c "cat /tmp/{{inventory_hostname}}-groups.rsc | ssh {{ansible_ssh_user}}@{{ansible_host}} -p {{ansible_ssh_port}} -T -o StrictHostKeyChecking=no -o NumberOfPasswordPrompts=1"
+  register: groups_output
+  
+- name: groups debug
+  debug:
+    var: groups_output.stdout_lines
+  failed_when: "'error' in ','.join(groups_output.stdout_lines) "
+
+- name: clean
+  file:
+    path: /tmp/{{ inventory_hostname }}-groups.rsc
+    state: absent

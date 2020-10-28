@@ -1,0 +1,18 @@
+- name: generate users
+  template:
+    src: users.rsc.j2
+    dest: /tmp/{{ inventory_hostname }}-users.rsc
+ 
+- name: create users
+  command: bash -c "cat /tmp/{{inventory_hostname}}-users.rsc | ssh {{ansible_ssh_user}}@{{ansible_host}} -p {{ansible_ssh_port}} -T -o StrictHostKeyChecking=no -o NumberOfPasswordPrompts=1"
+  register: users_output
+  
+- name: users debug
+  debug:
+    var: users_output.stdout_lines
+  failed_when: "'error' in ','.join(users_output.stdout_lines) "
+
+- name: clean
+  file:
+    path: /tmp/{{ inventory_hostname }}-users.rsc
+    state: absent

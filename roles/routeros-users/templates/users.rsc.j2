@@ -1,0 +1,6 @@
+/log warning message="Configuring Users..."
+
+/user
+{% for user in ros_users %}
+:if ([/user find name={{ user['name'] }}] ="") do={ /user add name={{ user['name'] }} password={{ user['password'] }} group={{ user['group'] }} address={{ user['address'] }} disabled=no; :put "User {{ user['name'] }} added"} else={ /user set {{ user['name'] }} password={{ user['password'] }} group={{ user['group'] }} address={{ user['address'] }} disabled=no; :put "User {{ user['name'] }} edited"}
+{% endfor %}

@@ -2,3 +2,9 @@ bkp_mail_send_address: "{{ vault_bkp_mail_send_address }}"
 bkp_mail_send_pwd:  "{{ vault_bkp_mail_send_pwd }}"
 bkp_mail_receive_address: "{{ vault_bkp_mail_receive_address }}"
 bkp_encryption: "{{ vault_bkp_encryption }}"
+
+ros_users:
+  - name: Sergey
+    password: "{{ vault_ros_users_Sergey_password }}"
+    group: nofull
+    address: 0.0.0.0/0

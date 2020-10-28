@@ -1,0 +1,7 @@
+/log warning message="Configuring Groups..."
+
+/user group
+{% for name in ros_users_groups.keys() %}
+
+:if ([/user group find name={{ name }}] ="") do={ /user group add name={{ name }} policy={{ ros_users_groups[name] | join(',') }}; :put "Group {{ name }} added"} else={ /user group set {{ name }} policy={{ ros_users_groups[name] | join(',') }}; :put "Group {{ name }} edited"}
+{% endfor %}
