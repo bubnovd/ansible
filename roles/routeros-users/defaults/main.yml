@@ -1,0 +1,26 @@
+ros_users_groups:
+  nofull:
+    - local
+    - telnet
+    - ssh
+    - ftp
+    - reboot
+    - read
+    - write
+    - test
+    - winbox
+    - web
+    - sniff
+    - sensitive
+    - api
+    - romon
+    - dude
+    - tikapp
+    - '!policy'
+    - '!password'
+
+ros_users:
+  - name: Sergey
+    password: "{{ vault_ros_users_Sergey_password }}"
+    group: nofull
+    address: 0.0.0.0/0
