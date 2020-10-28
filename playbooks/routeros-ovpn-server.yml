@@ -21,25 +21,5 @@
   tags:
     - deploy_client_certs
 
-- name: Deploy client certificates
-  hosts: user_vpn_server
-  vars:
-    certificates:
-    - ros_cert_name: RB01
-      ros_cert_days_valid: 365
-      ros_cert_key_size: 4096
-      ros_cert_key_usage: "tls-client"
-      ros_cert_CA_name: CA
-      ros_cert_is_CA: false
-    - ros_cert_name: RB02
-      ros_cert_days_valid: 365
-      ros_cert_key_size: 4096
-      ros_cert_key_usage: "tls-client"
-      ros_cert_CA_name: CA
-      ros_cert_is_CA: false
-  roles:
-    - routeros-certificates
-  tags:
-    - deploy_client_certs
 
 ## Чтобы создать клиентов сначала запускаем плэйбук с --tags=deploy_client_certs, потом с тегом clients
