@@ -1,3 +1,6 @@
 - include: groups.yml
 
 - include: users.yml
+
+- include: users_rm.yml
+  when: ros_users_rm is defined

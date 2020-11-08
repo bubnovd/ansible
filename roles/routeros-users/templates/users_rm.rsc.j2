@@ -1,0 +1,6 @@
+/log warning message="Deleting Users..."
+
+/user
+{% for user in ros_users_rm %}
+:if ([/user find name={{ user }}] !="") do={ /user remove {{ user }}; :put "User {{ user }} have reomved"} else={ :put "User {{ user }} not exist"}
+{% endfor %}
