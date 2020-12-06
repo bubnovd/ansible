@@ -20,7 +20,15 @@ ros_users_groups:
     - '!password'
 
 ros_users:
-  - name: Sergey
-    password: "{{ vault_ros_users_Sergey_password }}"
+  - name: Igor
+    password: "{{ vault_ros_users_Igor_password }}"
     group: nofull
+    address: 0.0.0.0/0
+  - name: Maxim
+    password: "{{ vault_ros_users_Maxim_password }}"
+    group: full
+    address: 0.0.0.0/0
+  - name: Andrew
+    password: "{{ vault_ros_users_Andrew_password }}"
+    group: full
     address: 0.0.0.0/0

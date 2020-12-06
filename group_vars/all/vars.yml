@@ -2,7 +2,3 @@ bkp_mail_send_address: "{{ vault_bkp_mail_send_address }}"
 bkp_mail_send_pwd:  "{{ vault_bkp_mail_send_pwd }}"
 bkp_mail_receive_address: "{{ vault_bkp_mail_receive_address }}"
 bkp_encryption: "{{ vault_bkp_encryption }}"
-
-ros_users_rm:
-  - Sergey
-  - Lexx

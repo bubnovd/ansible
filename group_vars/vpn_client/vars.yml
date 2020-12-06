@@ -7,5 +7,6 @@ ros_vpn_client_servers:
     user: "{{ hostvars[ros_vpn_client_server]['vpn_clients'][inventory_hostname]['name'] }}"
     password: "{{ hostvars[ros_vpn_client_server]['vpn_clients'][inventory_hostname]['password'] }}"
     ipsec_secret: "{{ hostvars[ros_vpn_client_server]['ipsec_key'] }}"
+    nat: false
 
 ros_vpn_client_need_ospf: true
